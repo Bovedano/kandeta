@@ -1,26 +1,61 @@
 import { EditorListFilter } from '@renderer/components/Editor/EditorListPanel/EditorListFilter/EditorListFilter'
+import { EditorListItem } from '@renderer/components/Editor/EditorListPanel/EditorListItem/EditorListItem'
+import { useSelectedLiteralContext } from '@renderer/context/useSelectedLiteralContext'
 import { useProjectContext } from '@renderer/context/useVInspectorSelectionContext'
-import { useThemeContext } from '@renderer/theme/useThemeContext'
 import { Pane } from 'evergreen-ui'
+import { useMemo, useState } from 'react'
+import sizes from '../../../theme/config/sizes.json'
 
 export const EditorListPanel = (): JSX.Element => {
-  const { theme } = useThemeContext()
   const { project } = useProjectContext()
+  const { literal_id, setLiteral_id } = useSelectedLiteralContext()
+  const [filter, setFilter] = useState<string>('')
 
-  const filterHeight = 30
+  const filteredLiterals = useMemo(() => {
+    if (project.translation_info?.literals) {
+      return project.translation_info.literals.filter((literal) => {
+        if (literal.id.includes(filter)) {
+          return literal
+        }
+        const translation = literal.translations.find((trans) => trans.text.includes(filter))
+        if (translation) {
+          return literal
+        }
+      })
+    }
+    return []
+  }, [project.translation_info?.literals, filter])
+
+  if (!project.translation_info) {
+    return <></>
+  }
+
   return (
     <Pane height="100%" width="100%" flexDirection="column">
-      <Pane height={filterHeight + 'px'} width="100%" backgroundColor={theme.backgrounds.toolbars}>
-        <EditorListFilter />
+      <Pane height={sizes.toolbars.height + 'px'} width="100%">
+        <EditorListFilter filter={filter} onFilterChange={setFilter} />
       </Pane>
       <Pane
-        height={'calc(100% - ' + filterHeight + 'px)'}
+        display="flex"
+        flexDirection="column"
+        maxHeight={'calc(100% - ' + sizes.toolbars.height + 'px)'}
+        height={'calc(100% - ' + sizes.toolbars.height + 'px)'}
         width="100%"
-        backgroundColor={theme.backgrounds.color}
+        overflow="auto"
+        padding="10px"
       >
-        {project.translation_info.literals.map((literal) => {
-          return <>{literal.id}</>
-        })}
+        <Pane display="flex" flexDirection="column" height="fit-content" rowGap="5px">
+          {filteredLiterals.map((literal) => {
+            return (
+              <EditorListItem
+                onSelect={setLiteral_id}
+                key={literal.id}
+                literal={literal}
+                isSelected={literal.id === literal_id}
+              />
+            )
+          })}
+        </Pane>
       </Pane>
     </Pane>
   )

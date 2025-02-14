@@ -1,10 +1,11 @@
-import { FormStateElement } from '@renderer/components/Editor/LanguageConfig/LanguageConfig'
-import { LanguageListItem } from '@renderer/components/Editor/LanguageConfig/LanguageListItem/LanguageListItem'
+import { FormStateElement } from '@renderer/Tools/LanguageConfig/LanguageConfig'
+import { LanguageListItem } from '@renderer/Tools/LanguageConfig/LanguageListItem/LanguageListItem'
 import { getLanguages } from '@renderer/config/languages'
-import { LanguageDefinition } from '@renderer/core/domain'
+import { FilesFormats, LanguageDefinition } from '@renderer/core/domain'
 import { Pane } from 'evergreen-ui'
 
 interface LanguageListProps {
+  files_format: FilesFormats
   value: FormStateElement[]
   onChange: (value: FormStateElement[]) => void
 }
@@ -40,6 +41,7 @@ export const LanguageList = (props: LanguageListProps): JSX.Element => {
         const itemState = props.value.find((item) => item.language.id === lang.id)
         return (
           <LanguageListItem
+            files_format={props.files_format}
             key={lang.id}
             language={lang}
             isDefault={!!itemState?.isDefault}

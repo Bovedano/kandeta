@@ -24,3 +24,9 @@ export const getLanguages = (): LanguageDefinition[] => {
 
   return ldefs
 }
+
+export const getLanguageById = (id: string): LanguageDefinition | undefined => {
+  return getLanguages().find((l) => l.id === id)
+}
+
+export const defaultLanguage = 'en-GB'

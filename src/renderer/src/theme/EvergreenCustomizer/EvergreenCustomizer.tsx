@@ -1,40 +1,55 @@
-import { DefaultTheme, ThemeProvider, defaultTheme } from 'evergreen-ui'
+import { DefaultTheme, ThemeProvider, defaultTheme, mergeTheme } from 'evergreen-ui'
 import { Global, css } from '@emotion/react'
 interface EvergreenCustomizerProps {
   children: JSX.Element
 }
 
 export const EvergreenCustomizer = (props: EvergreenCustomizerProps): JSX.Element => {
-  const customTheme: DefaultTheme = {
-    ...defaultTheme,
+  const customTheme: DefaultTheme = mergeTheme(defaultTheme, {
     components: {
-      ...defaultTheme.components,
-      DialogHeader: {
-        ...defaultTheme.components.DialogHeader,
+      Text: {
         baseStyle: {
-          ...defaultTheme.components.DialogHeader.baseStyle,
+          color: 'red'
+        }
+      },
+      Pane: {
+        baseStyle: {
+          backgroundColor: '#2d2d2d',
+          color: 'green'
+        }
+      },
+      Code: {
+        baseStyle: {
+          backgroundColor: '#2d2d2d',
+          color: 'green'
+        }
+      },
+      Radio: {
+        baseStyle: {
+          backgroundColor: 'red',
+          color: 'green'
+        }
+      },
+      DialogHeader: {
+        baseStyle: {
           backgroundColor: '#2d2d2d',
           color: '#ffffff'
         }
       },
       DialogBody: {
-        ...defaultTheme.components.DialogBody,
         baseStyle: {
-          ...defaultTheme.components.DialogBody.baseStyle,
           backgroundColor: '#2d2d2d',
           color: '#ffffff'
         }
       },
       DialogFooter: {
-        ...defaultTheme.components.DialogFooter,
         baseStyle: {
-          ...defaultTheme.components.DialogFooter.baseStyle,
           backgroundColor: '#2d2d2d',
-          color: '#ffffff'
+          color: '#ff0000'
         }
       }
     }
-  }
+  })
 
   return (
     <ThemeProvider value={customTheme}>

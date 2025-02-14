@@ -1,8 +1,9 @@
 import { Pane } from 'evergreen-ui'
-import { Menu } from '../Menu/Menu'
+import { Menu } from '../../Menu/Menu'
 import { Panel, PanelGroup, PanelResizeHandle } from 'react-resizable-panels'
 import { Separator } from '@renderer/components/Commons/Separator/Separator'
 import { EditorListPanel } from '@renderer/components/Editor/EditorListPanel/EditorListPanel'
+import { EditorDetaillPanel } from '@renderer/components/Editor/EditorDetaillPanel/EditorDetaillPanel'
 
 export const EditorLayout = (): JSX.Element => {
   const menuBarHeight = 0
@@ -21,7 +22,12 @@ export const EditorLayout = (): JSX.Element => {
         <Menu />
       </Pane>
       {/* Contenedor de Split */}
-      <Pane display="flex" flex={1} width="100%" flexDirection="row">
+      <Pane
+        display="flex"
+        width="100%"
+        height={'calc(100% - ' + (menuHeight + menuBarHeight) + 'px)'}
+        flexDirection="row"
+      >
         <PanelGroup direction="horizontal">
           <Panel id="sidebar" minSize={25} order={1}>
             <EditorListPanel />
@@ -30,7 +36,7 @@ export const EditorLayout = (): JSX.Element => {
             <Separator />
           </PanelResizeHandle>
           <Panel minSize={25} order={2}>
-            <>Dos</>
+            <EditorDetaillPanel />
           </Panel>
         </PanelGroup>
       </Pane>
