@@ -1,3 +1,4 @@
+import { defaultLanguage } from '@renderer/config/languages'
 import { Project } from '@renderer/core/domain'
 import React, { useContext, useState } from 'react'
 
@@ -17,9 +18,11 @@ interface ProjectContext extends ProjectState {
 const defContext: ProjectContext = {
   project: {
     translation_info: {
-      default_language_id: 'es-ES',
-      literals: []
+      default_language_id: defaultLanguage,
+      literals: [],
+      included_language_ids: []
     },
+    files_format: 'json-separated-files',
     files: [],
     file: undefined
   },

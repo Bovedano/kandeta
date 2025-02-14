@@ -1,11 +1,14 @@
-import { selectFile } from '@renderer/controllers/nativeController'
-import { LanguageDefinition } from '@renderer/core/domain'
+import { selectFile, selectNewFile } from '@renderer/controllers/nativeController'
+import { FilesFormats, LanguageDefinition } from '@renderer/core/domain'
+import { getLoader } from '@renderer/core/files/loaderFactory'
 import { Button, Pane, Radio, TextInput } from 'evergreen-ui'
 
 const idWidth = 60
 const buttonWidth = 20
+const nbuttons = 2
 
 interface LanguageListItemProps {
+  files_format: FilesFormats
   language: LanguageDefinition
   value: string
   isDefault: boolean
@@ -32,7 +35,7 @@ export const LanguageListItem = (props: LanguageListItemProps): JSX.Element => {
         }}
       />
       <TextInput
-        width={'calc(100% - ' + (idWidth + buttonWidth + 20) + 'px)'}
+        width={'calc(100% - ' + (idWidth + buttonWidth * nbuttons + 20) + 'px)'}
         name="text-input-name"
         placeholder="Language File"
         border="none"
@@ -52,6 +55,23 @@ export const LanguageListItem = (props: LanguageListItemProps): JSX.Element => {
         }}
       >
         ...
+      </Button>
+      <Button
+        width={buttonWidth + 'px'}
+        boxShadow="none"
+        size="small"
+        onClick={() => {
+          selectNewFile(
+            props.language.id + '.copy.' + getLoader(props.files_format).generator().extension,
+            getLoader(props.files_format).generator().content
+          ).then((filename) => {
+            if (filename) {
+              props.onChange(props.language, filename, props.isDefault)
+            }
+          })
+        }}
+      >
+        +
       </Button>
     </Pane>
   )

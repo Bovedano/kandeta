@@ -1,12 +1,15 @@
 import { Pane, TextInput } from 'evergreen-ui'
-import { useState } from 'react'
 import { LuCaseSensitive } from 'react-icons/lu'
 import { BsRegex } from 'react-icons/bs'
 import { IoMdArrowDropdown } from 'react-icons/io'
 import { Icon } from '@renderer/components/Commons/Icon/Icon'
 
-export const EditorListFilter = (): JSX.Element => {
-  const [value, setValue] = useState<string>('')
+interface EditorListFilterProps {
+  filter: string
+  onFilterChange: (filter: string) => void
+}
+
+export const EditorListFilter = (props: EditorListFilterProps): JSX.Element => {
   const iconSize = 25
   const nIcons = 3
 
@@ -33,8 +36,8 @@ export const EditorListFilter = (): JSX.Element => {
           width="100%"
           borderRadius="0px"
           placeholder="Id, text, regular expression"
-          value={value}
-          onChange={(ev) => setValue(ev.target.value)}
+          value={props.filter}
+          onChange={(ev) => props.onFilterChange(ev.target.value)}
         />
       </Pane>
       <Pane
