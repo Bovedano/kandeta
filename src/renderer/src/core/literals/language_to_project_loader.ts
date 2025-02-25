@@ -1,7 +1,7 @@
 import { defaultLanguage } from '@renderer/config/languages'
 import { FormatModule, LanguageFile, Project, TranslationInfo } from '@renderer/core/domain'
 import { getLoader } from '@renderer/core/files/loaderFactory'
-import { addLiteralToTranslationInfo } from '@renderer/core/literals/literals_translations'
+import { addLiteralToTranslationInfo } from '@renderer/core/literals/literals'
 
 export const loadLiteralsToProject = async (
   lfiles: LanguageFile[],
@@ -12,12 +12,17 @@ export const loadLiteralsToProject = async (
 
   const included_language_ids = filesInfo.map((finfo) => finfo.language_id)
 
-  const tinfo: TranslationInfo = {
-    literals: [],
-    included_language_ids,
-    default_language_id: defaultLanguage
+  let tinfo: TranslationInfo | undefined = project.translation_info
+
+  if (!tinfo) {
+    tinfo = {
+      literals: [],
+      included_language_ids,
+      default_language_id: defaultLanguage
+    }
   }
 
+  //Add files literals
   filesInfo.forEach((loadedFile) => {
     console.log(loadedFile.language_id)
     Object.keys(loadedFile.info).forEach((lit_key) => {
@@ -27,7 +32,14 @@ export const loadLiteralsToProject = async (
     })
   })
 
-  console.log('tinfo', tinfo)
+  //Add actual project literals
+  if (project.translation_info) {
+    project.translation_info.literals.forEach((lit) => {
+      lit.translations.forEach((translation) => {
+        addLiteralToTranslationInfo(tinfo, translation.language_id, lit.id, translation.text, false)
+      })
+    })
+  }
 
   return tinfo
 }

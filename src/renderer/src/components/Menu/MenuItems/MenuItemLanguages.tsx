@@ -13,7 +13,7 @@ export const MenuItemLanguages = (): JSX.Element => {
 
   return (
     <>
-      <MenuItem icon={LiaLanguageSolid} onClick={onClickHandler} />
+      <MenuItem id="languages" icon={LiaLanguageSolid} onClick={onClickHandler} />
     </>
   )
 }

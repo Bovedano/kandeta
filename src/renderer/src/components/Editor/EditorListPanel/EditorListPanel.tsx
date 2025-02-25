@@ -4,7 +4,8 @@ import { useSelectedLiteralContext } from '@renderer/context/useSelectedLiteralC
 import { useProjectContext } from '@renderer/context/useVInspectorSelectionContext'
 import { Pane } from 'evergreen-ui'
 import { useMemo, useState } from 'react'
-import sizes from '../../../theme/config/sizes.json'
+import { EditorToolbarPanelLayout } from '@renderer/components/Editor/EditorToolbarPanelLayout/EditorToolbarPanelLayout'
+import { EmptyPanelState } from '@renderer/components/Commons/EmptyPanelState/EmptyPanelState'
 
 export const EditorListPanel = (): JSX.Element => {
   const { project } = useProjectContext()
@@ -13,33 +14,41 @@ export const EditorListPanel = (): JSX.Element => {
 
   const filteredLiterals = useMemo(() => {
     if (project.translation_info?.literals) {
-      return project.translation_info.literals.filter((literal) => {
-        if (literal.id.includes(filter)) {
-          return literal
-        }
-        const translation = literal.translations.find((trans) => trans.text.includes(filter))
-        if (translation) {
-          return literal
-        }
-      })
+      return project.translation_info.literals
+        .filter((literal) => {
+          if (literal.id.toUpperCase().includes(filter.toUpperCase())) {
+            return literal
+          }
+          const translation = literal.translations.find((trans) =>
+            trans.text.toUpperCase().includes(filter.toUpperCase())
+          )
+          if (translation) {
+            return literal
+          }
+          return undefined
+        })
+        .sort((a, b) => a.id.localeCompare(b.id))
     }
     return []
-  }, [project.translation_info?.literals, filter])
+  }, [project, project.translation_info?.literals, filter])
 
   if (!project.translation_info) {
-    return <></>
+    return (
+      <EditorToolbarPanelLayout>
+        <Pane slot="toolbar"></Pane>
+        <EmptyPanelState text="" slot="body" />
+      </EditorToolbarPanelLayout>
+    )
   }
 
   return (
-    <Pane height="100%" width="100%" flexDirection="column">
-      <Pane height={sizes.toolbars.height + 'px'} width="100%">
-        <EditorListFilter filter={filter} onFilterChange={setFilter} />
-      </Pane>
+    <EditorToolbarPanelLayout>
+      <EditorListFilter slot="toolbar" filter={filter} onFilterChange={setFilter} />
       <Pane
+        slot="body"
         display="flex"
         flexDirection="column"
-        maxHeight={'calc(100% - ' + sizes.toolbars.height + 'px)'}
-        height={'calc(100% - ' + sizes.toolbars.height + 'px)'}
+        height="100%"
         width="100%"
         overflow="auto"
         padding="10px"
@@ -57,6 +66,6 @@ export const EditorListPanel = (): JSX.Element => {
           })}
         </Pane>
       </Pane>
-    </Pane>
+    </EditorToolbarPanelLayout>
   )
 }

@@ -4,27 +4,6 @@ export const findLiteralById = (literals: Literal[], id: string): Literal | unde
   return literals.find((literal) => literal.id === id)
 }
 
-export const addLiteralToTranslationInfo = (
-  tinfo: TranslationInfo,
-  language_id: string,
-  lit_key: string,
-  lit_value: string,
-  is_modified: boolean
-): void => {
-  let literal: Literal | undefined = tinfo.literals.find((literal) => literal.id === lit_key)
-  if (!literal) {
-    literal = {
-      id: lit_key,
-      translations: [],
-      is_modified
-    }
-    tinfo.literals.push(literal)
-  }
-
-  literal.is_modified = is_modified
-  addTranlationToLiteral(literal, language_id, lit_value)
-}
-
 export const addTranlationToLiteral = (
   literal: Literal,
   language_id: string,
@@ -54,4 +33,47 @@ export const getLiteralTranslationValue = (
     return trnsl.text
   }
   return def_value
+}
+
+interface GetLanguageOrderedTranslationsReturn {
+  language_id: string
+  translations: Array<{
+    translation: Translation
+    literal: Literal
+  }>
+}
+
+export const getLanguageOrderedTranslations = (
+  tinfo: TranslationInfo
+): GetLanguageOrderedTranslationsReturn[] => {
+  const result: Record<string, GetLanguageOrderedTranslationsReturn> = {}
+  tinfo.literals.forEach((literal) => {
+    literal.translations.forEach((translation) => {
+      if (result[translation.language_id]) {
+        result[translation.language_id].translations.push({
+          translation: translation,
+          literal: literal
+        })
+      } else {
+        result[translation.language_id] = {
+          language_id: translation.language_id,
+          translations: [
+            {
+              translation: translation,
+              literal: literal
+            }
+          ]
+        }
+      }
+    })
+  })
+
+  return Object.keys(result).map((key) => result[key])
+}
+
+export const getDefaultTranslationFromLiteral = (
+  literal: Literal,
+  default_language_id: string
+): Translation | void => {
+  return literal.translations.find((trans) => trans.language_id === default_language_id)
 }

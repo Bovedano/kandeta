@@ -16,3 +16,8 @@ export const selectNewFile = async (
 export const writeFile = (path: string, content: string): Promise<string> => {
   return window.electron.ipcRenderer.invoke('files:writeFile', path, content)
 }
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const request = async <T>(config: any): Promise<T> => {
+  return window.electron.ipcRenderer.invoke('http:request', config)
+}

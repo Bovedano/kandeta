@@ -21,12 +21,11 @@ export const Menu = (): JSX.Element => {
       width="100%"
       height="100%"
       background={theme.backgrounds.menu}
-      paddingY="10px"
     >
       <Pane display="flex" columnGap={menuRowGap + 'px'} height="100%" alignItems="center">
         <MenuItemOpen />
         <MenuItemSave />
-        <Separator />
+        <Separator margins={15} opacity={50} />
         <MenuItemLanguages />
         <MenuItemAuto />
         <MenuItemTools />

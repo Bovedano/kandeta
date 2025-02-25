@@ -1,9 +1,12 @@
+import { CRadio } from '@renderer/components/Commons/CComponents/CRadio/CRadio'
+import { CText } from '@renderer/components/Commons/CComponents/CText/CText'
 import { selectFile, selectNewFile } from '@renderer/controllers/nativeController'
 import { FilesFormats, LanguageDefinition } from '@renderer/core/domain'
 import { getLoader } from '@renderer/core/files/loaderFactory'
-import { Button, Pane, Radio, TextInput } from 'evergreen-ui'
+import { Button, Pane, TextInput } from 'evergreen-ui'
 
-const idWidth = 60
+const idWidth = 15
+const textWidth = 45
 const buttonWidth = 20
 const nbuttons = 2
 
@@ -25,17 +28,25 @@ export const LanguageListItem = (props: LanguageListItemProps): JSX.Element => {
       justifyContent="space-between"
       alignItems="center"
     >
-      <Radio
+      <CRadio
         width={idWidth + 'px'}
         checked={props.isDefault}
         name="group"
-        label={props.language.id}
         onChange={() => {
           props.onChange(props.language, props.value, true)
         }}
       />
+      <CText
+        cursor={'pointer'}
+        width={textWidth + 'px'}
+        onClick={() => {
+          props.onChange(props.language, props.value, true)
+        }}
+      >
+        {props.language.id}
+      </CText>
       <TextInput
-        width={'calc(100% - ' + (idWidth + buttonWidth * nbuttons + 20) + 'px)'}
+        width={'calc(100% - ' + (idWidth + textWidth + buttonWidth * nbuttons + 20) + 'px)'}
         name="text-input-name"
         placeholder="Language File"
         border="none"
@@ -51,7 +62,9 @@ export const LanguageListItem = (props: LanguageListItemProps): JSX.Element => {
         boxShadow="none"
         size="small"
         onClick={() => {
-          selectFile().then((filename) => props.onChange(props.language, filename, props.isDefault))
+          selectFile().then((filename) => {
+            props.onChange(props.language, filename, props.isDefault)
+          })
         }}
       >
         ...
@@ -62,11 +75,13 @@ export const LanguageListItem = (props: LanguageListItemProps): JSX.Element => {
         size="small"
         onClick={() => {
           selectNewFile(
-            props.language.id + '.copy.' + getLoader(props.files_format).generator().extension,
+            props.language.id + '.' + getLoader(props.files_format).generator().extension,
             getLoader(props.files_format).generator().content
           ).then((filename) => {
             if (filename) {
               props.onChange(props.language, filename, props.isDefault)
+            } else {
+              alert('No filename')
             }
           })
         }}

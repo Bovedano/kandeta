@@ -4,6 +4,17 @@ export interface Project {
   files_format: FilesFormats
   files: LanguageFile[]
   translation_info?: TranslationInfo
+  status?: ProjectStatus
+  tm_configuration: TMConfig
+}
+
+export interface TMConfig {
+  tm_configurations: TMConfiguration[]
+  selected_tm: string
+}
+
+export interface ProjectStatus {
+  saved: boolean
 }
 
 export interface TranslationInfo {
@@ -31,6 +42,7 @@ export interface LanguageDefinition {
 
 // Modulo de carga
 type FMLoader = (lfiles: LanguageFile[]) => Promise<LanguageLoaded[]>
+type FMSaver = (lfiles: LanguageFile[], languagesLoaded: LanguageLoaded[]) => Promise<boolean>
 type FMGenerator = () => {
   content: string
   extension: string
@@ -38,6 +50,7 @@ type FMGenerator = () => {
 
 interface FormatModule {
   loader: FMLoader
+  saver: FMSaver
   generator: FMGenerator
 }
 
@@ -50,4 +63,29 @@ export interface LanguageFile {
 export interface LanguageLoaded {
   language_id: string
   info: Record<string, string>
+}
+
+//Translation Modules
+
+export interface TranslationModule {
+  id: string
+  name: string
+  config: TranslationModuleConfig[]
+  translate: (
+    configuration: TMConfiguration[],
+    id_language_origin: string,
+    id_language_target: string,
+    text
+  ) => Promise<string>
+}
+
+export interface TranslationModuleConfig {
+  id: string
+  name: string
+}
+
+export interface TMConfiguration {
+  id: string
+  module_id: string
+  value: string
 }

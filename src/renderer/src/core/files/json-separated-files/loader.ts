@@ -2,7 +2,9 @@ import { readFile } from '@renderer/controllers/nativeController'
 import { FMLoader, LanguageFile, LanguageLoaded } from '@renderer/core/domain'
 import { FileLoadError } from '@renderer/core/models'
 
-export const jsonSeparatedFilesLoader: FMLoader = async (lfiles: LanguageFile[]) => {
+export const jsonSeparatedFilesLoader: FMLoader = async (
+  lfiles: LanguageFile[]
+): Promise<LanguageLoaded[]> => {
   const filteredLF = filterFiles(lfiles)
 
   const results = await Promise.allSettled(filteredLF.map(checkAndLoadFile))

@@ -3,6 +3,7 @@ import { LanguageListItem } from '@renderer/Tools/LanguageConfig/LanguageListIte
 import { getLanguages } from '@renderer/config/languages'
 import { FilesFormats, LanguageDefinition } from '@renderer/core/domain'
 import { Pane } from 'evergreen-ui'
+import { useEffect } from 'react'
 
 interface LanguageListProps {
   files_format: FilesFormats
@@ -13,19 +14,32 @@ interface LanguageListProps {
 export const LanguageList = (props: LanguageListProps): JSX.Element => {
   const languages = getLanguages()
 
+  useEffect(() => {
+    console.log('value', props.value)
+  }, [props.value])
+
   const onChangeHandler = (
     language: LanguageDefinition,
     newValue: string,
     isDefault: boolean
   ): void => {
-    const itemState = props.value.find((item) => item.language.id === language.id)
+    let actualValue = props.value
+    const itemState = actualValue.find((item) => item.language.id === language.id)
+    if (isDefault) {
+      console.log('set default to ' + language.id)
+      actualValue = props.value.map((v) => ({
+        ...v,
+        isDefault: v.language.id === language.id,
+        value: newValue
+      }))
+    }
     if (itemState) {
       itemState.value = newValue
       itemState.isDefault = isDefault
-      props.onChange([...props.value])
+      props.onChange([...actualValue])
     } else {
       props.onChange([
-        ...props.value,
+        ...actualValue,
         {
           language: language,
           value: newValue,

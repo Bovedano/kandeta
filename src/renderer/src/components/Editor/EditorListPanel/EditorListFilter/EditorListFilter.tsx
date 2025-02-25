@@ -1,8 +1,8 @@
 import { Pane, TextInput } from 'evergreen-ui'
-import { LuCaseSensitive } from 'react-icons/lu'
-import { BsRegex } from 'react-icons/bs'
+import { IoIosAddCircleOutline } from 'react-icons/io'
 import { IoMdArrowDropdown } from 'react-icons/io'
 import { Icon } from '@renderer/components/Commons/Icon/Icon'
+import { useNewTranslationInput } from '@renderer/Tools/hooks/useNewTranslationInput'
 
 interface EditorListFilterProps {
   filter: string
@@ -10,6 +10,7 @@ interface EditorListFilterProps {
 }
 
 export const EditorListFilter = (props: EditorListFilterProps): JSX.Element => {
+  const newTranslationInputController = useNewTranslationInput()
   const iconSize = 25
   const nIcons = 3
 
@@ -32,10 +33,10 @@ export const EditorListFilter = (props: EditorListFilterProps): JSX.Element => {
         width={'calc(100% - ' + iconSize * nIcons + 'px)'}
       >
         <TextInput
-          height="100%"
+          size="small"
           width="100%"
-          borderRadius="0px"
-          placeholder="Id, text, regular expression"
+          borderRadius="5px"
+          placeholder="Id, text, tag"
           value={props.filter}
           onChange={(ev) => props.onFilterChange(ev.target.value)}
         />
@@ -45,18 +46,15 @@ export const EditorListFilter = (props: EditorListFilterProps): JSX.Element => {
         height="100%"
         justifyContent="center"
         alignItems="center"
-        width={iconSize + 'px'}
+        width={iconSize * 2 + 'px'}
       >
-        <Icon icon={LuCaseSensitive} b_hover cursor="pointer" />
-      </Pane>
-      <Pane
-        display="flex"
-        height="100%"
-        justifyContent="center"
-        alignItems="center"
-        width={iconSize + 'px'}
-      >
-        <Icon icon={BsRegex} b_hover cursor="pointer" />
+        <Icon
+          icon={IoIosAddCircleOutline}
+          b_hover
+          cursor="pointer"
+          size={30}
+          onClick={() => newTranslationInputController.open()}
+        />
       </Pane>
     </Pane>
   )
