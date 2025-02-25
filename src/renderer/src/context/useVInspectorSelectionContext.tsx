@@ -1,5 +1,5 @@
-import { defaultLanguage } from '@renderer/config/languages'
 import { Project } from '@renderer/core/domain'
+import { getEmptyProject } from '@renderer/core/project/projectInitializer'
 import React, { useContext, useState } from 'react'
 
 interface ProjectProviderProps {
@@ -16,16 +16,7 @@ interface ProjectContext extends ProjectState {
 }
 
 const defContext: ProjectContext = {
-  project: {
-    translation_info: {
-      default_language_id: defaultLanguage,
-      literals: [],
-      included_language_ids: []
-    },
-    files_format: 'json-separated-files',
-    files: [],
-    file: undefined
-  },
+  project: getEmptyProject(),
   setProject: () => {},
   setAll: () => {}
 }

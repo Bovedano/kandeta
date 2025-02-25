@@ -1,10 +1,11 @@
 import { LanguageList } from '@renderer/Tools/LanguageConfig/LanguageList/LanguageList'
+import { useToolLanguageConfig } from '@renderer/Tools/hooks/useToolLanguageConfig'
 import { getLanguageById } from '@renderer/config/languages'
 import { useProjectContext } from '@renderer/context/useVInspectorSelectionContext'
 import { LanguageDefinition, LanguageFile } from '@renderer/core/domain'
 import { loadLanguageFilesToProject } from '@renderer/core/project/loadFilesToProject'
 import { Dialog } from 'evergreen-ui'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 interface LanguageConfigProps {
   isOpen: boolean
@@ -37,6 +38,7 @@ const initList = (lfiles: LanguageFile[]): FormStateElement[] => {
 
 export const LanguageConfig = (props: LanguageConfigProps): JSX.Element => {
   const { project, setProject } = useProjectContext()
+  const languageConfigController = useToolLanguageConfig()
 
   const [value, setValue] = useState<FormStateElement[]>(initList(project.files))
 
@@ -53,11 +55,17 @@ export const LanguageConfig = (props: LanguageConfigProps): JSX.Element => {
       is_default: value.isDefault
     }))
 
-    loadLanguageFilesToProject(lfiles, project)
+    const validLfiles: LanguageFile[] = lfiles.filter((lfile) => !!lfile.language_file)
+
+    console.log('validLfiles', validLfiles)
+
+    loadLanguageFilesToProject(validLfiles, project)
       .then((project) => {
         setProject(project)
       })
       .catch((faileds) => console.log('NOK: ' + JSON.stringify(faileds)))
+
+    languageConfigController.close()
   }
 
   return (

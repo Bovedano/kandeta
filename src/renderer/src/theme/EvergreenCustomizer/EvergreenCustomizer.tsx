@@ -7,27 +7,9 @@ interface EvergreenCustomizerProps {
 export const EvergreenCustomizer = (props: EvergreenCustomizerProps): JSX.Element => {
   const customTheme: DefaultTheme = mergeTheme(defaultTheme, {
     components: {
-      Text: {
-        baseStyle: {
-          color: 'red'
-        }
-      },
       Pane: {
         baseStyle: {
-          backgroundColor: '#2d2d2d',
-          color: 'green'
-        }
-      },
-      Code: {
-        baseStyle: {
-          backgroundColor: '#2d2d2d',
-          color: 'green'
-        }
-      },
-      Radio: {
-        baseStyle: {
-          backgroundColor: 'red',
-          color: 'green'
+          backgroundColor: '#2d2d2d'
         }
       },
       DialogHeader: {
@@ -46,6 +28,24 @@ export const EvergreenCustomizer = (props: EvergreenCustomizerProps): JSX.Elemen
         baseStyle: {
           backgroundColor: '#2d2d2d',
           color: '#ff0000'
+        }
+      },
+      MenuItem: {
+        baseStyle: {
+          backgroundColor: '#2d2d2d',
+          color: '#ff0000'
+        }
+      },
+      Input: {
+        baseStyle: {
+          backgroundColor: '#2d2d2d',
+          color: 'black'
+        }
+      },
+      Spinner: {
+        baseStyle: {
+          backgroundColor: '#2d2d2d',
+          color: 'white'
         }
       }
     }

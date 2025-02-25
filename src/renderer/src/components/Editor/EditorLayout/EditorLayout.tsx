@@ -33,7 +33,7 @@ export const EditorLayout = (): JSX.Element => {
             <EditorListPanel />
           </Panel>
           <PanelResizeHandle>
-            <Separator />
+            <Separator opacity={50} />
           </PanelResizeHandle>
           <Panel minSize={25} order={2}>
             <EditorDetaillPanel />

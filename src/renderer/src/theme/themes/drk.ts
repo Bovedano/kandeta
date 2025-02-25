@@ -14,7 +14,8 @@ export const drk_theme = (): Theme => {
       color: '#303030',
       hover: '',
       menu: '#242323',
-      toolbars: '#303030'
+      toolbars: '#303030',
+      modals: '#303030'
     },
     inputs: {
       color: 'white',
