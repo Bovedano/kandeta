@@ -6,5 +6,5 @@ export const MenuItemTools = (): JSX.Element => {
     alert('Touch')
   }
 
-  return <MenuItem id="tools" icon={GrTools} onClick={onClickHandler} />
+  return <MenuItem id="tools" icon={GrTools} onClick={onClickHandler} hide />
 }

@@ -22,7 +22,9 @@ export const MenuItemSave = (): JSX.Element => {
             saveProject(project, true).then((project) => setProject(project))
           }
         }
-      ],
+      ]
+      /*
+      ,
       [
         {
           label: 'Export to format',
@@ -31,6 +33,7 @@ export const MenuItemSave = (): JSX.Element => {
           }
         }
       ]
+        */
     ]
     return smbns
   }, [project])

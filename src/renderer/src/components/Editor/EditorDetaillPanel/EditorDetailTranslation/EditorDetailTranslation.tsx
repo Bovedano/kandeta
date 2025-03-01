@@ -1,6 +1,5 @@
 import { CText } from '@renderer/components/Commons/CComponents/CText/CText'
 import { Icon } from '@renderer/components/Commons/Icon/Icon'
-import { useProjectContext } from '@renderer/context/useVInspectorSelectionContext'
 import { Literal } from '@renderer/core/domain'
 import {
   getDefaultTranslationFromLiteral,
@@ -12,6 +11,7 @@ import { useEffect, useRef, useState } from 'react'
 import { MdAutoAwesome } from 'react-icons/md'
 import { MdClose } from 'react-icons/md'
 import { FaCheck } from 'react-icons/fa6'
+import { useConfigContext } from '@renderer/context/useConfigContext'
 
 interface EditorDetailTranslationProps {
   literal: Literal
@@ -26,7 +26,7 @@ export const EditorDetailTranslation = (props: EditorDetailTranslationProps): JS
   const [suggestion, setSuggestion] = useState<string | undefined>()
   const timeoutRef = useRef<NodeJS.Timeout | null>(null)
   const [inProcess, setInProcess] = useState<string>('')
-  const { project } = useProjectContext()
+  const { config } = useConfigContext()
 
   useEffect(() => {
     setValue(getLiteralTranslationValue(props.literal, props.language_id, ''))
@@ -49,13 +49,13 @@ export const EditorDetailTranslation = (props: EditorDetailTranslationProps): JS
 
   const onTranslateHandler = (): void => {
     setError('')
-    const tm = getTranslationModule(project.tm_configuration.selected_tm)
+    const tm = getTranslationModule(config.tm_configuration.selected_tm)
     if (tm) {
       const defaultLiteral = getDefaultTranslationFromLiteral(props.literal, props.default_language)
       if (defaultLiteral && defaultLiteral.text) {
         setInProcess('Translating...')
         tm.translate(
-          project.tm_configuration.tm_configurations,
+          config.tm_configuration.tm_configurations,
           props.default_language,
           props.language_id,
           defaultLiteral.text

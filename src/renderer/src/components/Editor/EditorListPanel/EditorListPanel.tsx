@@ -6,6 +6,7 @@ import { Pane } from 'evergreen-ui'
 import { useMemo, useState } from 'react'
 import { EditorToolbarPanelLayout } from '@renderer/components/Editor/EditorToolbarPanelLayout/EditorToolbarPanelLayout'
 import { EmptyPanelState } from '@renderer/components/Commons/EmptyPanelState/EmptyPanelState'
+import { filterLiterals } from '@renderer/core/literals/filter'
 
 export const EditorListPanel = (): JSX.Element => {
   const { project } = useProjectContext()
@@ -14,20 +15,9 @@ export const EditorListPanel = (): JSX.Element => {
 
   const filteredLiterals = useMemo(() => {
     if (project.translation_info?.literals) {
-      return project.translation_info.literals
-        .filter((literal) => {
-          if (literal.id.toUpperCase().includes(filter.toUpperCase())) {
-            return literal
-          }
-          const translation = literal.translations.find((trans) =>
-            trans.text.toUpperCase().includes(filter.toUpperCase())
-          )
-          if (translation) {
-            return literal
-          }
-          return undefined
-        })
-        .sort((a, b) => a.id.localeCompare(b.id))
+      return filterLiterals(project.translation_info, filter).sort((a, b) =>
+        a.id.localeCompare(b.id)
+      )
     }
     return []
   }, [project, project.translation_info?.literals, filter])

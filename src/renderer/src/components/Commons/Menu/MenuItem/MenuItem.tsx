@@ -8,6 +8,7 @@ interface MenuItemProps {
   icon: IconType
   onClick?: () => void
   submenus?: SubMenu[][]
+  hide?: boolean
 }
 
 export interface SubMenu {
@@ -21,6 +22,10 @@ export const MenuItem = (props: MenuItemProps): JSX.Element => {
     if (props.onClick) {
       props.onClick()
     }
+  }
+
+  if (props.hide) {
+    return <></>
   }
 
   return (

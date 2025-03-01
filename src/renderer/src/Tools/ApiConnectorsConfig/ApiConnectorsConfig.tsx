@@ -1,3 +1,4 @@
+import { useConfigContext } from '@renderer/context/useConfigContext'
 import { useProjectContext } from '@renderer/context/useVInspectorSelectionContext'
 import { LanguageDefinition, TMConfig } from '@renderer/core/domain'
 import { ApiConnectorsConfigList } from '@renderer/Tools/ApiConnectorsConfig/ApiConnectorsConfigList/ApiConnectorsConfigList'
@@ -18,11 +19,12 @@ export interface FormStateElement {
 }
 
 export const ApiConnectorsConfig = (props: ApiConnectorsConfigProps): JSX.Element => {
-  const { project, setProject } = useProjectContext()
+  const { project } = useProjectContext()
+  const { config, setConfig } = useConfigContext()
 
   const [localTMConfig, setLocalTMConfig] = useState<TMConfig>({
-    selected_tm: project.tm_configuration.selected_tm,
-    tm_configurations: project.tm_configuration.tm_configurations.map((conf) => ({
+    selected_tm: config.tm_configuration.selected_tm,
+    tm_configurations: config.tm_configuration.tm_configurations.map((conf) => ({
       ...conf
     }))
   })
@@ -31,8 +33,8 @@ export const ApiConnectorsConfig = (props: ApiConnectorsConfigProps): JSX.Elemen
     console.log('project', project)
     if (props.isOpen) {
       setLocalTMConfig({
-        selected_tm: project.tm_configuration.selected_tm,
-        tm_configurations: project.tm_configuration.tm_configurations.map((conf) => ({
+        selected_tm: config.tm_configuration.selected_tm,
+        tm_configurations: config.tm_configuration.tm_configurations.map((conf) => ({
           ...conf
         }))
       })
@@ -42,7 +44,7 @@ export const ApiConnectorsConfig = (props: ApiConnectorsConfigProps): JSX.Elemen
   const apiConnectorConfigController = useApiConnectorConfig()
 
   const onConfirmValue = (): void => {
-    setProject({ ...project, tm_configuration: localTMConfig })
+    setConfig({ ...config, tm_configuration: localTMConfig })
     apiConnectorConfigController.close()
   }
 

@@ -9,10 +9,6 @@ export const getEmptyProject = (): Project => {
     file: undefined,
     status: {
       saved: true
-    },
-    tm_configuration: {
-      tm_configurations: [],
-      selected_tm: ''
     }
   }
 

@@ -36,3 +36,7 @@ export const readFile = async (_event, path): Promise<string> => {
 export const writeFile = async (_event, path: string, content: string): Promise<void> => {
   writeFileSync(path, content, 'utf8')
 }
+
+export const getAppDir = async (): Promise<string> => {
+  return process.resourcesPath
+}
