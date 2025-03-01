@@ -1,8 +1,8 @@
 import { Pane, TextInput } from 'evergreen-ui'
 import { IoIosAddCircleOutline } from 'react-icons/io'
-import { IoMdArrowDropdown } from 'react-icons/io'
 import { Icon } from '@renderer/components/Commons/Icon/Icon'
 import { useNewTranslationInput } from '@renderer/Tools/hooks/useNewTranslationInput'
+import { EditorListTags } from '@renderer/components/Editor/EditorListPanel/EditorListTags/EditorListTags'
 
 interface EditorListFilterProps {
   filter: string
@@ -23,7 +23,7 @@ export const EditorListFilter = (props: EditorListFilterProps): JSX.Element => {
         alignItems="center"
         width={iconSize + 'px'}
       >
-        <Icon icon={IoMdArrowDropdown} b_hover cursor="pointer" />
+        <EditorListTags id="filtertags" onTagSelected={props.onFilterChange} />
       </Pane>
       <Pane
         display="flex"

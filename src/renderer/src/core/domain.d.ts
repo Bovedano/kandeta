@@ -5,12 +5,6 @@ export interface Project {
   files: LanguageFile[]
   translation_info?: TranslationInfo
   status?: ProjectStatus
-  tm_configuration: TMConfig
-}
-
-export interface TMConfig {
-  tm_configurations: TMConfiguration[]
-  selected_tm: string
 }
 
 export interface ProjectStatus {
@@ -88,4 +82,21 @@ export interface TMConfiguration {
   id: string
   module_id: string
   value: string
+}
+
+//Config
+
+export interface Config {
+  tm_configuration: TMConfig
+}
+
+export interface TMConfig {
+  tm_configurations: TMConfiguration[]
+  selected_tm: string
+}
+
+//Filter
+export interface Tag {
+  id: string
+  filter: (literals: Literals) => Literals[]
 }

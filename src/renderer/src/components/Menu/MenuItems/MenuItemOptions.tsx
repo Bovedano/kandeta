@@ -6,5 +6,5 @@ export const MenuItemOptions = (): JSX.Element => {
     alert('Touch')
   }
 
-  return <MenuItem id="options" icon={IoIosOptions} onClick={onClickHandler} />
+  return <MenuItem id="options" icon={IoIosOptions} onClick={onClickHandler} hide />
 }

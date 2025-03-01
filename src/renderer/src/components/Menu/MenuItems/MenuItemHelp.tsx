@@ -6,5 +6,5 @@ export const MenuItemHelp = (): JSX.Element => {
     alert('Touch')
   }
 
-  return <MenuItem id="help" icon={TbHelpHexagon} onClick={onClickHandler} />
+  return <MenuItem id="help" icon={TbHelpHexagon} onClick={onClickHandler} hide />
 }

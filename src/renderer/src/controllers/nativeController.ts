@@ -21,3 +21,7 @@ export const writeFile = (path: string, content: string): Promise<string> => {
 export const request = async <T>(config: any): Promise<T> => {
   return window.electron.ipcRenderer.invoke('http:request', config)
 }
+
+export const getAppDir = async (): Promise<string> => {
+  return window.electron.ipcRenderer.invoke('files:appDir')
+}

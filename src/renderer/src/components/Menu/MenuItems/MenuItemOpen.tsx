@@ -45,13 +45,16 @@ export const MenuItemOpen = (): JSX.Element => {
           },
           isDisabled: false
         }
-      ],
+      ]
+      /*
+      ,
       [
         {
           label: 'Exit',
           onClick: (): void => {}
         }
       ]
+        */
     ]
     return smbns
   }, [project, project.translation_info])
