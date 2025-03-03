@@ -13,21 +13,15 @@ export const NewTranslationInput = (props: NewTranslationInputProps): JSX.Elemen
   const { project, setProject } = useProjectContext()
 
   const onAddTranslationHandler = (value: string): void => {
-    console.log(value)
-    if (project.translation_info) {
-      addLiteralToTranslationInfo(
-        project.translation_info,
-        project.translation_info.default_language_id,
-        value,
-        '',
-        true
-      )
-      setProject({ ...project })
-      setLiteral_id(value)
-    } else {
-      //TODO: alert to error
-      alert('No tinfo')
-    }
+    addLiteralToTranslationInfo(
+      project.translation_info,
+      project.translation_info.default_language_id,
+      value,
+      '',
+      true
+    )
+    setProject({ ...project })
+    setLiteral_id(value)
 
     props.onClose()
   }

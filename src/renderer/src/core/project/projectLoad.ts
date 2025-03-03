@@ -1,6 +1,7 @@
 import { readFile, selectFile } from '@renderer/controllers/nativeController'
-import { Project } from '@renderer/core/domain'
+import { PersistenceProject, Project } from '@renderer/core/domain'
 import { loadLanguageFilesToProject } from '@renderer/core/project/loadFilesToProject'
+import { getEmptyProject } from '@renderer/core/project/projectInitializer'
 
 export const loadProjectFromFile = async (): Promise<Project> => {
   const file = await selectFile()
@@ -17,9 +18,22 @@ export const reLoadProject = async (project: Project): Promise<Project> => {
 const readFileProject = async (file: string): Promise<Project> => {
   const content = await readFile(file)
 
-  const project: Project = JSON.parse(content)
+  const savedProject: PersistenceProject = JSON.parse(content)
 
-  const loadedProject = await loadLanguageFilesToProject(project.files, project)
+  const emptyProject = getEmptyProject()
+
+  const project: Project = {
+    ...emptyProject,
+    files: savedProject.files,
+    files_format: savedProject.files_format
+  }
+
+  const loadedProject = await loadLanguageFilesToProject(
+    savedProject.default_language_id,
+    project.files,
+    project
+  )
+  console.log('project load', loadedProject)
   loadedProject.file = file
   loadedProject.status = {
     saved: true

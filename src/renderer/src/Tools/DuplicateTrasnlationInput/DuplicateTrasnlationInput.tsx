@@ -15,7 +15,7 @@ export const DuplicateTrasnlationInput = (props: DuplicateTrasnlationInputProps)
 
   const onAddTranslationHandler = (value: string): void => {
     console.log(value)
-    if (project.translation_info && props.idLiteralToDuplicate) {
+    if (props.idLiteralToDuplicate) {
       try {
         duplicarteLiteral(props.idLiteralToDuplicate, value, project.translation_info)
         setProject({ ...project })

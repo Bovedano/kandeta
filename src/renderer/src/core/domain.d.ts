@@ -3,8 +3,14 @@ export interface Project {
   file: string | undefined
   files_format: FilesFormats
   files: LanguageFile[]
-  translation_info?: TranslationInfo
+  translation_info: TranslationInfo
   status?: ProjectStatus
+}
+
+export interface PersistenceProject {
+  files_format: FilesFormats
+  files: LanguageFile[]
+  default_language_id: string
 }
 
 export interface ProjectStatus {
@@ -51,7 +57,6 @@ interface FormatModule {
 export interface LanguageFile {
   language_id: string
   language_file: string
-  is_default: boolean
 }
 
 export interface LanguageLoaded {

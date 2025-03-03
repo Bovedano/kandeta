@@ -20,37 +20,25 @@ export const EditorDetaillPanel = (): JSX.Element => {
     return findLiteralInProjectById(literal_id, project.translation_info)
   }, [literal_id, project])
 
-  const default_language: string | undefined = useMemo(() => {
-    const file = project.files.find((f) => f.is_default)
-    if (file) {
-      return file.language_id
-    }
-    return undefined
-  }, [project])
+  const ordered_files = useMemo(() => {
+    const sorted = project.files.sort((a, b) => {
+      if (a.language_id === project.translation_info.default_language_id) {
+        return -1
+      }
+      if (b.language_id === project.translation_info.default_language_id) {
+        return 1
+      }
+      return a.language_id.localeCompare(b.language_id)
+    })
+    console.log('sorted', sorted)
+    return sorted
+  }, [project, project.translation_info, project.translation_info.default_language_id])
 
   if (project.files.length == 0) {
     return (
       <EditorToolbarPanelLayout>
         <Pane slot="toolbar"></Pane>
         <EmptyPanelState text="There is no language selected" slot="body" />
-      </EditorToolbarPanelLayout>
-    )
-  }
-
-  if (!default_language) {
-    return (
-      <EditorToolbarPanelLayout>
-        <Pane slot="toolbar"></Pane>
-        <EmptyPanelState text="There is no default language selected" slot="body" />
-      </EditorToolbarPanelLayout>
-    )
-  }
-
-  if (!project.translation_info) {
-    return (
-      <EditorToolbarPanelLayout>
-        <Pane slot="toolbar"></Pane>
-        <EmptyPanelState text="" slot="body" />
       </EditorToolbarPanelLayout>
     )
   }
@@ -77,11 +65,11 @@ export const EditorDetaillPanel = (): JSX.Element => {
         padding="10px"
       >
         <Pane display="flex" flexDirection="column" height="fit-content" rowGap="15px">
-          {project.files.map((file) => (
+          {ordered_files.map((file) => (
             <EditorDetailTranslation
               key={file.language_id}
               language_id={file.language_id}
-              default_language={default_language}
+              default_language={project.translation_info.default_language_id}
               literal={literal}
               onChangeValue={(value: string) => {
                 if (project.translation_info) {
