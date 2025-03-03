@@ -16,6 +16,7 @@ interface LanguageListItemProps {
   value: string
   isDefault: boolean
   onChange: (language: LanguageDefinition, value: string, isDefault: boolean) => void
+  onSelect: () => void
 }
 
 export const LanguageListItem = (props: LanguageListItemProps): JSX.Element => {
@@ -32,9 +33,7 @@ export const LanguageListItem = (props: LanguageListItemProps): JSX.Element => {
         width={idWidth + 'px'}
         checked={props.isDefault}
         name="group"
-        onChange={() => {
-          props.onChange(props.language, props.value, true)
-        }}
+        onChange={props.onSelect}
       />
       <CText
         cursor={'pointer'}

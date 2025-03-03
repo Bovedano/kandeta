@@ -11,7 +11,7 @@ export const EditorToolbarPanelLayout = (props: EditorToolbarPanelLayoutProps): 
   return (
     <Pane display="flex" height="100%" width="100%" flexDirection="column">
       <EvergreenCustomizerToobars>
-        <Pane display="flex" paddingLeft="10px" height={sizes.toolbars.height + 'px'} width="100%">
+        <Pane paddingX="10px" display="flex" height={sizes.toolbars.height + 'px'} width="100%">
           <SlottedComponent slot="toolbar">{props.children}</SlottedComponent>
         </Pane>
       </EvergreenCustomizerToobars>

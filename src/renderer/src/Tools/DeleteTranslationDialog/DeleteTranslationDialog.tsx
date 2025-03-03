@@ -12,7 +12,7 @@ export const DeleteTranslationDialog = (props: DeleteTranslationDialogProps): JS
   const { project, setProject } = useProjectContext()
 
   const onAddTranslationHandler = (): void => {
-    if (project.translation_info && props.idLiteralToDelete) {
+    if (props.idLiteralToDelete) {
       try {
         deleteLiteral(props.idLiteralToDelete, project.translation_info)
         setProject({ ...project })

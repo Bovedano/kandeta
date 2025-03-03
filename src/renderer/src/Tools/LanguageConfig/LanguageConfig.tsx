@@ -16,7 +16,6 @@ interface LanguageConfigProps {
 export interface FormStateElement {
   language: LanguageDefinition
   value: string
-  isDefault: boolean
 }
 
 const initList = (lfiles: LanguageFile[]): FormStateElement[] => {
@@ -26,7 +25,6 @@ const initList = (lfiles: LanguageFile[]): FormStateElement[] => {
     const language: LanguageDefinition | undefined = getLanguageById(lfiles[i].language_id)
     if (language) {
       list.push({
-        isDefault: lfiles[i].is_default,
         language: language,
         value: lfiles[i].language_file
       })
@@ -42,8 +40,13 @@ export const LanguageConfig = (props: LanguageConfigProps): JSX.Element => {
 
   const [value, setValue] = useState<FormStateElement[]>(initList(project.files))
 
+  const [valueLanguageId, setValueLanguageId] = useState<string>(
+    project.translation_info.default_language_id
+  )
+
   useEffect(() => {
     setValue(initList(project.files))
+    setValueLanguageId(project.translation_info.default_language_id)
   }, [project, project.files])
 
   console.log(value)
@@ -51,21 +54,26 @@ export const LanguageConfig = (props: LanguageConfigProps): JSX.Element => {
   const onConfirmValue = (): void => {
     const lfiles: LanguageFile[] = value.map((value) => ({
       language_file: value.value,
-      language_id: value.language.id,
-      is_default: value.isDefault
+      language_id: value.language.id
     }))
 
     const validLfiles: LanguageFile[] = lfiles.filter((lfile) => !!lfile.language_file)
 
-    console.log('validLfiles', validLfiles)
+    if (validLfiles.find((validf) => validf.language_id === valueLanguageId)) {
+      console.log('validLfiles', validLfiles)
 
-    loadLanguageFilesToProject(validLfiles, project)
-      .then((project) => {
-        setProject(project)
-      })
-      .catch((faileds) => console.log('NOK: ' + JSON.stringify(faileds)))
+      loadLanguageFilesToProject(valueLanguageId, validLfiles, project)
+        .then((project) => {
+          setProject(project)
+        })
+        .catch((faileds) => console.log('NOK: ' + JSON.stringify(faileds)))
 
-    languageConfigController.close()
+      languageConfigController.close()
+    } else {
+      //TODO:
+      //ERROR cannot save
+      alert('Error')
+    }
   }
 
   return (
@@ -77,7 +85,13 @@ export const LanguageConfig = (props: LanguageConfigProps): JSX.Element => {
       confirmLabel="Save"
       onConfirm={onConfirmValue}
     >
-      <LanguageList value={value} onChange={setValue} files_format={project.files_format} />
+      <LanguageList
+        value={value}
+        onChange={setValue}
+        files_format={project.files_format}
+        idSelected={valueLanguageId}
+        onSelectedChange={setValueLanguageId}
+      />
     </Dialog>
   )
 }

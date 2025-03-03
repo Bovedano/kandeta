@@ -25,12 +25,9 @@ export const addLiteralToTranslationInfo = (
 
 export const findLiteralInProjectById = (
   id: string,
-  translation_info?: TranslationInfo
+  translation_info: TranslationInfo
 ): Literal | undefined => {
-  if (translation_info?.literals) {
-    return translation_info.literals.find((lit) => lit.id === id)
-  }
-  return undefined
+  return translation_info.literals.find((lit) => lit.id === id)
 }
 
 export const renameLiteral = (

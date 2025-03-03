@@ -1,5 +1,5 @@
 import { selectNewFile, writeFile } from '@renderer/controllers/nativeController'
-import { FormatModule, LanguageLoaded, Project } from '@renderer/core/domain'
+import { FormatModule, LanguageLoaded, PersistenceProject, Project } from '@renderer/core/domain'
 import { getLoader } from '@renderer/core/files/loaderFactory'
 import { getLanguageOrderedTranslations } from '@renderer/core/literals/literals_translations'
 
@@ -42,11 +42,10 @@ export const saveLanguageFiles = async (project: Project): Promise<boolean> => {
 }
 
 const serializeProject = (project: Project): string => {
-  const projectToSave: Project = {
-    ...project,
-    file: undefined,
-    translation_info: undefined,
-    status: undefined
+  const projectToSave: PersistenceProject = {
+    default_language_id: project.translation_info.default_language_id,
+    files: project.files,
+    files_format: project.files_format
   }
 
   return JSON.stringify(projectToSave)
@@ -55,23 +54,22 @@ const serializeProject = (project: Project): string => {
 export const projectToLanguageLoaded = async (project: Project): Promise<LanguageLoaded[]> => {
   const lfiles: LanguageLoaded[] = []
 
-  if (project.translation_info) {
-    const orderedTranslations = getLanguageOrderedTranslations(project.translation_info)
-    console.log('orderedTranslations', orderedTranslations)
+  const orderedTranslations = getLanguageOrderedTranslations(project.translation_info)
+  console.log('orderedTranslations', orderedTranslations)
 
-    orderedTranslations.forEach((otrans) => {
-      const file = project.files.find((file) => file.language_id === otrans.language_id)
-      if (file) {
-        lfiles.push({
-          info: otrans.translations.reduce<Record<string, string>>((acc, ot) => {
-            acc[ot.literal.id] = ot.translation.text
-            return acc
-          }, {}),
-          language_id: otrans.language_id
-        })
-      }
-    })
-  }
+  orderedTranslations.forEach((otrans) => {
+    const file = project.files.find((file) => file.language_id === otrans.language_id)
+    if (file) {
+      lfiles.push({
+        info: otrans.translations.reduce<Record<string, string>>((acc, ot) => {
+          acc[ot.literal.id] = ot.translation.text
+          return acc
+        }, {}),
+        language_id: otrans.language_id
+      })
+    }
+  })
+
   console.log('lfiles', lfiles)
 
   return lfiles

@@ -9,6 +9,8 @@ interface LanguageListProps {
   files_format: FilesFormats
   value: FormStateElement[]
   onChange: (value: FormStateElement[]) => void
+  idSelected: string
+  onSelectedChange: (idSelected: string) => void
 }
 
 export const LanguageList = (props: LanguageListProps): JSX.Element => {
@@ -18,32 +20,18 @@ export const LanguageList = (props: LanguageListProps): JSX.Element => {
     console.log('value', props.value)
   }, [props.value])
 
-  const onChangeHandler = (
-    language: LanguageDefinition,
-    newValue: string,
-    isDefault: boolean
-  ): void => {
-    let actualValue = props.value
-    const itemState = actualValue.find((item) => item.language.id === language.id)
-    if (isDefault) {
-      console.log('set default to ' + language.id)
-      actualValue = props.value.map((v) => ({
-        ...v,
-        isDefault: v.language.id === language.id,
-        value: newValue
-      }))
-    }
+  const onChangeHandler = (language: LanguageDefinition, newValue: string): void => {
+    const itemState = props.value.find((item) => item.language.id === language.id)
+
     if (itemState) {
       itemState.value = newValue
-      itemState.isDefault = isDefault
-      props.onChange([...actualValue])
+      props.onChange([...props.value])
     } else {
       props.onChange([
-        ...actualValue,
+        ...props.value,
         {
           language: language,
-          value: newValue,
-          isDefault: isDefault
+          value: newValue
         }
       ])
     }
@@ -58,9 +46,10 @@ export const LanguageList = (props: LanguageListProps): JSX.Element => {
             files_format={props.files_format}
             key={lang.id}
             language={lang}
-            isDefault={!!itemState?.isDefault}
+            isDefault={lang.id === props.idSelected}
             value={itemState ? itemState.value : ''}
             onChange={onChangeHandler}
+            onSelect={() => props.onSelectedChange(lang.id)}
           />
         )
       })}
