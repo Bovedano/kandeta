@@ -1,6 +1,6 @@
 import { ToolsContextType, useToolsContext } from '@renderer/context/useToolsContext'
 
-const alias = 'renameTranslationInput'
+const alias = 'duplicateTranslationInput'
 
 interface ToolType {
   idLiteralToDuplicate: string
