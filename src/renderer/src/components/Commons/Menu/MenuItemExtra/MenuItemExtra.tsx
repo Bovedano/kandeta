@@ -66,7 +66,8 @@ export const MenuItemExtra = (props: MenuItemExtraProps): JSX.Element => {
         <EvergreenCustomizerMenus>
           <Pane
             className={menu_id}
-            width={240}
+            width={'fit-content'}
+            minWidth={240}
             height="fit-content"
             display="flex"
             alignItems="start"
@@ -87,7 +88,11 @@ export const MenuItemExtra = (props: MenuItemExtraProps): JSX.Element => {
                       cursor={smn.isDisabled ? 'default' : 'pointer'}
                       opacity={smn.isDisabled ? '50%' : '100%'}
                       onClick={smn.isDisabled ? (): void => {} : (): void => smn.onClick()}
-                      className={smn.isDisabled ? 'noSelectable ' + menu_id : 'noSelectable'}
+                      className={
+                        smn.isDisabled
+                          ? 'noSelectable nowraptext ' + menu_id
+                          : 'noSelectable nowraptext'
+                      }
                     >
                       {smn.label}
                     </CText>

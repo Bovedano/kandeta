@@ -1,12 +1,19 @@
 import { MenuItem, SubMenu } from '@renderer/components/Commons/Menu/MenuItem/MenuItem'
 import { useProjectContext } from '@renderer/context/useVInspectorSelectionContext'
 import { getEmptyProject } from '@renderer/core/project/projectInitializer'
-import { loadProjectFromFile, reLoadProject } from '@renderer/core/project/projectLoad'
+import {
+  loadProjectFromFile,
+  readFileProject,
+  reLoadProject
+} from '@renderer/core/project/projectLoad'
+import { truncatePath } from '@renderer/core/utils/paths'
+import { useStoreLastEdited } from '@renderer/hooks/useStoreLastEdited'
 import { useMemo } from 'react'
 import { IoFolderOpenOutline } from 'react-icons/io5'
 
 export const MenuItemOpen = (): JSX.Element => {
   const { project, setProject } = useProjectContext()
+  const { lastEdited, addEdited } = useStoreLastEdited()
 
   const submenus: SubMenu[][] = useMemo(() => {
     const smbns: SubMenu[][] = [
@@ -17,6 +24,9 @@ export const MenuItemOpen = (): JSX.Element => {
             loadProjectFromFile()
               .then((project) => {
                 setProject(project)
+                if (project.file) {
+                  addEdited(project.file)
+                }
               })
               .catch(() => {
                 //TODO show alert
@@ -46,18 +56,33 @@ export const MenuItemOpen = (): JSX.Element => {
           isDisabled: false
         }
       ]
-      /*
-      ,
-      [
-        {
-          label: 'Exit',
-          onClick: (): void => {}
-        }
-      ]
-        */
     ]
+
+    if (lastEdited.length > 0) {
+      smbns.push(
+        lastEdited.map(
+          (le): SubMenu => ({
+            label: truncatePath(le),
+            onClick: (): void => {
+              readFileProject(le)
+                .then((project) => {
+                  setProject(project)
+                  if (project.file) {
+                    addEdited(project.file)
+                  }
+                })
+                .catch(() => {
+                  //TODO show alert
+                  alert('Error')
+                })
+            }
+          })
+        )
+      )
+    }
+
     return smbns
-  }, [project, project.translation_info])
+  }, [project, project.translation_info, lastEdited])
 
   return (
     <>

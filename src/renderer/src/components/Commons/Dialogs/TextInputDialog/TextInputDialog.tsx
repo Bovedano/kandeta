@@ -28,6 +28,7 @@ export const TextInputDialog = (props: TextInputDialogProps): JSX.Element => {
       onCancel={props.onCancell}
       confirmLabel="Save"
       onConfirm={() => props.onConfirm(value)}
+      onCloseComplete={props.onCancell}
     >
       <CText>{props.label ? props.label : ''}</CText>
       <TextInput
