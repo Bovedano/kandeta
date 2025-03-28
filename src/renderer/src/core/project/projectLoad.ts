@@ -15,7 +15,7 @@ export const reLoadProject = async (project: Project): Promise<Project> => {
   return await readFileProject(project.file)
 }
 
-const readFileProject = async (file: string): Promise<Project> => {
+export const readFileProject = async (file: string): Promise<Project> => {
   const content = await readFile(file)
 
   const savedProject: PersistenceProject = JSON.parse(content)

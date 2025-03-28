@@ -10,7 +10,14 @@ export const EditorLayout = (): JSX.Element => {
   const menuHeight = 50
 
   return (
-    <Pane display="flex" alignItems="start" height={'100%'} width="100%" flexDirection={'column'}>
+    <Pane
+      display="flex"
+      alignItems="start"
+      height={'100%'}
+      width="100%"
+      flexDirection={'column'}
+      minWidth="500px"
+    >
       <Pane
         display="flex"
         alignItems="center"
