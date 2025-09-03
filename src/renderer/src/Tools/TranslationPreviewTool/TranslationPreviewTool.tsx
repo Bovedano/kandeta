@@ -1,4 +1,5 @@
 import { LanguageDefinition } from '@renderer/core/domain'
+import { useError } from '@renderer/core/context/ErrorContext'
 import { Dialog } from 'evergreen-ui'
 
 interface TranslationPreviewToolProps {
@@ -15,6 +16,7 @@ export interface FormStateElement {
 }
 
 export const TranslationPreviewTool = (props: TranslationPreviewToolProps): JSX.Element => {
+  const { showSimpleError } = useError()
   return (
     <Dialog
       header="Multiple Translation Tool"
@@ -22,7 +24,12 @@ export const TranslationPreviewTool = (props: TranslationPreviewToolProps): JSX.
       onCloseComplete={props.onClose}
       onCancel={props.onClose}
       confirmLabel="Save"
-      onConfirm={() => alert('Confirm')}
+      onConfirm={() =>
+        showSimpleError(
+          'Feature not implemented',
+          'The save functionality for translation preview is not implemented yet.'
+        )
+      }
     >
       <></>
     </Dialog>

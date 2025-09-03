@@ -2,6 +2,7 @@ import { TextInputDialog } from '@renderer/components/Commons/Dialogs/TextInputD
 import { useSelectedLiteralContext } from '@renderer/context/useSelectedLiteralContext'
 import { useProjectContext } from '@renderer/context/useVInspectorSelectionContext'
 import { duplicarteLiteral } from '@renderer/core/literals/literals'
+import { useError } from '@renderer/core/context/ErrorContext'
 
 interface DuplicateTranslationInputProps {
   isOpen: boolean
@@ -12,6 +13,7 @@ interface DuplicateTranslationInputProps {
 export const DuplicateTranslationInput = (props: DuplicateTranslationInputProps): JSX.Element => {
   const { setLiteral_id } = useSelectedLiteralContext()
   const { project, setProject } = useProjectContext()
+  const { showSimpleError } = useError()
 
   const onAddTranslationHandler = (value: string): void => {
     console.log(value)
@@ -21,12 +23,16 @@ export const DuplicateTranslationInput = (props: DuplicateTranslationInputProps)
         setProject({ ...project })
         setLiteral_id(value)
       } catch (err) {
-        //TODO: alert to error
-        alert('Cannot duplicate literal')
+        showSimpleError(
+          'Cannot duplicate literal',
+          'An error occurred while trying to duplicate the literal.'
+        )
       }
     } else {
-      //TODO: alert to error
-      alert('No tinfo')
+      showSimpleError(
+        'Translation information not found',
+        'No translation information available to perform the duplication operation.'
+      )
     }
 
     props.onClose()

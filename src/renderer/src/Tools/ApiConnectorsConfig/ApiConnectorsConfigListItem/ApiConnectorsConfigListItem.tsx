@@ -54,7 +54,7 @@ export const ApiConnectorsConfigListItem = (
         <CText width="100%">{props.module.name}</CText>
       </Pane>
       <Separator horizontal />
-      <Pane display="flex" flexDirection="column" paddingTop="10px" width="100%">
+      <Pane display="flex" flexDirection="column" paddingTop="10px" width="100%" rowGap="12px">
         {props.module.config.map((config) => (
           <Pane display="flex" key={config.id} alignItems="center" columnGap="10px" width="100%">
             <Pane alignItems="center" marginTop="5px">

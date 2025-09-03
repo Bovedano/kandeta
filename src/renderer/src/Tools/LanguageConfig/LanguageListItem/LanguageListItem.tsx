@@ -3,6 +3,7 @@ import { CText } from '@renderer/components/Commons/CComponents/CText/CText'
 import { selectFile, selectNewFile } from '@renderer/controllers/nativeController'
 import { FilesFormats, LanguageDefinition } from '@renderer/core/domain'
 import { getLoader } from '@renderer/core/files/loaderFactory'
+import { useError } from '@renderer/core/context/ErrorContext'
 import { Button, Pane, TextInput } from 'evergreen-ui'
 
 const idWidth = 15
@@ -20,6 +21,7 @@ interface LanguageListItemProps {
 }
 
 export const LanguageListItem = (props: LanguageListItemProps): JSX.Element => {
+  const { showSimpleError } = useError()
   return (
     <Pane
       display="flex"
@@ -80,7 +82,10 @@ export const LanguageListItem = (props: LanguageListItemProps): JSX.Element => {
             if (filename) {
               props.onChange(props.language, filename, props.isDefault)
             } else {
-              alert('No filename')
+              showSimpleError(
+                'File selection cancelled',
+                'No filename was selected for the language file.'
+              )
             }
           })
         }}

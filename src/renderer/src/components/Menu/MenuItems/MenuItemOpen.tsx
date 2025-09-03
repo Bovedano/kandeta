@@ -8,12 +8,14 @@ import {
 } from '@renderer/core/project/projectLoad'
 import { truncatePath } from '@renderer/core/utils/paths'
 import { useStoreLastEdited } from '@renderer/hooks/useStoreLastEdited'
+import { useError } from '@renderer/core/context/ErrorContext'
 import { useMemo } from 'react'
 import { IoFolderOpenOutline } from 'react-icons/io5'
 
 export const MenuItemOpen = (): JSX.Element => {
   const { project, setProject } = useProjectContext()
   const { lastEdited, addEdited } = useStoreLastEdited()
+  const { showSimpleError } = useError()
 
   const submenus: SubMenu[][] = useMemo(() => {
     const smbns: SubMenu[][] = [
@@ -29,8 +31,10 @@ export const MenuItemOpen = (): JSX.Element => {
                 }
               })
               .catch(() => {
-                //TODO show alert
-                alert('Error')
+                showSimpleError(
+                  'Failed to open project',
+                  'An error occurred while trying to open the project file.'
+                )
               })
           }
         },
@@ -42,8 +46,10 @@ export const MenuItemOpen = (): JSX.Element => {
                 setProject(project)
               })
               .catch(() => {
-                //TODO show alert
-                alert('Error')
+                showSimpleError(
+                  'Failed to reload project',
+                  'An error occurred while trying to reload the project.'
+                )
               })
           },
           isDisabled: !project.file
@@ -72,8 +78,10 @@ export const MenuItemOpen = (): JSX.Element => {
                   }
                 })
                 .catch(() => {
-                  //TODO show alert
-                  alert('Error')
+                  showSimpleError(
+                    'Failed to open recent project',
+                    'An error occurred while trying to open the recent project file.'
+                  )
                 })
             }
           })

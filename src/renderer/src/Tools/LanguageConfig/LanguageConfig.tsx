@@ -4,6 +4,7 @@ import { getLanguageById } from '@renderer/config/languages'
 import { useProjectContext } from '@renderer/context/useVInspectorSelectionContext'
 import { LanguageDefinition, LanguageFile } from '@renderer/core/domain'
 import { loadLanguageFilesToProject } from '@renderer/core/project/loadFilesToProject'
+import { useError } from '@renderer/core/context/ErrorContext'
 import { Dialog } from 'evergreen-ui'
 import { useEffect, useState } from 'react'
 
@@ -37,6 +38,7 @@ const initList = (lfiles: LanguageFile[]): FormStateElement[] => {
 export const LanguageConfig = (props: LanguageConfigProps): JSX.Element => {
   const { project, setProject } = useProjectContext()
   const languageConfigController = useToolLanguageConfig()
+  const { showSimpleError } = useError()
 
   const [value, setValue] = useState<FormStateElement[]>(initList(project.files))
 
@@ -70,9 +72,10 @@ export const LanguageConfig = (props: LanguageConfigProps): JSX.Element => {
 
       languageConfigController.close()
     } else {
-      //TODO:
-      //ERROR cannot save
-      alert('Error')
+      showSimpleError(
+        'Invalid default language',
+        'The selected default language must have a corresponding language file configured.'
+      )
     }
   }
 

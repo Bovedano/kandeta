@@ -29,7 +29,7 @@ export const MenuItemSave = (): JSX.Element => {
         {
           label: 'Export to format',
           onClick: (): void => {
-            alert('Not implemented yet')
+            // Feature not implemented yet
           }
         }
       ]
