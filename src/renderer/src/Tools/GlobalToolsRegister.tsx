@@ -1,6 +1,6 @@
 import { ApiConnectorsConfig } from '@renderer/Tools/ApiConnectorsConfig/ApiConnectorsConfig'
 import { DeleteTranslationDialog } from '@renderer/Tools/DeleteTranslationDialog/DeleteTranslationDialog'
-import { DuplicateTrasnlationInput } from '@renderer/Tools/DuplicateTrasnlationInput/DuplicateTrasnlationInput'
+import { DuplicateTranslationInput } from '@renderer/Tools/DuplicateTranslationInput/DuplicateTranslationInput'
 import { useApiConnectorConfig } from '@renderer/Tools/hooks/useApiConnectorConfig'
 import { useDeleteTranslationDialog } from '@renderer/Tools/hooks/useDeleteTranslationDialog'
 import { useDuplicateTranslationInput } from '@renderer/Tools/hooks/useDuplicateTranslationInput'
@@ -40,7 +40,7 @@ export const GlobalToolsRegister = (): JSX.Element => {
         onClose={deleteTranslationDialogController.close}
         idLiteralToDelete={deleteTranslationDialogController.data?.idLiteralToDelete}
       />
-      <DuplicateTrasnlationInput
+      <DuplicateTranslationInput
         isOpen={duplicateTranslationInputController.isOpen}
         onClose={duplicateTranslationInputController.close}
         idLiteralToDuplicate={duplicateTranslationInputController.data?.idLiteralToDuplicate}

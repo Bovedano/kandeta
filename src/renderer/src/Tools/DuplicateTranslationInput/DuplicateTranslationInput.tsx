@@ -3,13 +3,13 @@ import { useSelectedLiteralContext } from '@renderer/context/useSelectedLiteralC
 import { useProjectContext } from '@renderer/context/useVInspectorSelectionContext'
 import { duplicarteLiteral } from '@renderer/core/literals/literals'
 
-interface DuplicateTrasnlationInputProps {
+interface DuplicateTranslationInputProps {
   isOpen: boolean
   onClose: () => void
   idLiteralToDuplicate?: string
 }
 
-export const DuplicateTrasnlationInput = (props: DuplicateTrasnlationInputProps): JSX.Element => {
+export const DuplicateTranslationInput = (props: DuplicateTranslationInputProps): JSX.Element => {
   const { setLiteral_id } = useSelectedLiteralContext()
   const { project, setProject } = useProjectContext()
 
