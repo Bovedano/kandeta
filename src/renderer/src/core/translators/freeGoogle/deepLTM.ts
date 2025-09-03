@@ -8,7 +8,7 @@ interface ServiceResponse {
 }
 
 export const deepLTM: TranslationModule = {
-  id: 'f deepl',
+  id: 'deepl',
   name: 'Free DeepL',
   config: [
     {

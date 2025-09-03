@@ -6,6 +6,7 @@ import {
   getLiteralTranslationValue
 } from '@renderer/core/literals/literals_translations'
 import { getTranslationModule } from '@renderer/core/translators/register'
+import { useError } from '@renderer/core/context/ErrorContext'
 import { Pane, Spinner, TextInput } from 'evergreen-ui'
 import { useEffect, useRef, useState } from 'react'
 import { MdAutoAwesome } from 'react-icons/md'
@@ -23,6 +24,7 @@ interface EditorDetailTranslationProps {
 export const EditorDetailTranslation = (props: EditorDetailTranslationProps): JSX.Element => {
   const [value, setValue] = useState<string | undefined>()
   const [error, setError] = useState<string | undefined>('')
+  const { showSimpleError } = useError()
   const [suggestion, setSuggestion] = useState<string | undefined>()
   const timeoutRef = useRef<NodeJS.Timeout | null>(null)
   const [inProcess, setInProcess] = useState<string>('')
@@ -71,12 +73,16 @@ export const EditorDetailTranslation = (props: EditorDetailTranslationProps): JS
             setError('It has not been possible to translate')
           })
       } else {
-        //TODO alert
-        alert('Default translation not found')
+        showSimpleError(
+          'Default translation not found',
+          'Could not find the default translation text to translate from.'
+        )
       }
     } else {
-      //TODO alert
-      alert('Error cannot translate, module not found')
+      showSimpleError(
+        'Translation module not found',
+        'The selected translation service is not available or configured.'
+      )
     }
   }
   const is_default = props.language_id === props.default_language

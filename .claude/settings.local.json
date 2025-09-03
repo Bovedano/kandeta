@@ -2,7 +2,11 @@
   "permissions": {
     "allow": [
       "Bash(npm run typecheck:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(npm run dev:*)",
+      "Bash(timeout:*)",
+      "WebSearch",
+      "Bash(npm run lint)"
     ],
     "deny": [],
     "ask": []

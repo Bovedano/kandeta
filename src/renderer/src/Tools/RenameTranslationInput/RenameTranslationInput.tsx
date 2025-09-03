@@ -2,6 +2,7 @@ import { TextInputDialog } from '@renderer/components/Commons/Dialogs/TextInputD
 import { useSelectedLiteralContext } from '@renderer/context/useSelectedLiteralContext'
 import { useProjectContext } from '@renderer/context/useVInspectorSelectionContext'
 import { renameLiteral } from '@renderer/core/literals/literals'
+import { useError } from '@renderer/core/context/ErrorContext'
 
 interface RenameTranslationInputProps {
   isOpen: boolean
@@ -12,6 +13,7 @@ interface RenameTranslationInputProps {
 export const RenameTranslationInput = (props: RenameTranslationInputProps): JSX.Element => {
   const { setLiteral_id } = useSelectedLiteralContext()
   const { project, setProject } = useProjectContext()
+  const { showSimpleError } = useError()
 
   const onAddTranslationHandler = (value: string): void => {
     console.log(value)
@@ -21,12 +23,16 @@ export const RenameTranslationInput = (props: RenameTranslationInputProps): JSX.
         setProject({ ...project })
         setLiteral_id(value)
       } catch (err) {
-        //TODO: alert to error
-        alert('Cannot rename literal')
+        showSimpleError(
+          'Cannot rename literal',
+          'An error occurred while trying to rename the literal.'
+        )
       }
     } else {
-      //TODO: alert to error
-      alert('No tinfo')
+      showSimpleError(
+        'Translation information not found',
+        'No translation information available to perform the rename operation.'
+      )
     }
 
     props.onClose()

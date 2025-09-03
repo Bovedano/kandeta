@@ -1,6 +1,7 @@
 import { AcceptCancellDialog } from '@renderer/components/Commons/Dialogs/AcceptCancellDialog/AcceptCancellDialog'
 import { useProjectContext } from '@renderer/context/useVInspectorSelectionContext'
 import { deleteLiteral } from '@renderer/core/literals/literals'
+import { useError } from '@renderer/core/context/ErrorContext'
 
 interface DeleteTranslationDialogProps {
   isOpen: boolean
@@ -10,6 +11,7 @@ interface DeleteTranslationDialogProps {
 
 export const DeleteTranslationDialog = (props: DeleteTranslationDialogProps): JSX.Element => {
   const { project, setProject } = useProjectContext()
+  const { showSimpleError } = useError()
 
   const onAddTranslationHandler = (): void => {
     if (props.idLiteralToDelete) {
@@ -17,12 +19,16 @@ export const DeleteTranslationDialog = (props: DeleteTranslationDialogProps): JS
         deleteLiteral(props.idLiteralToDelete, project.translation_info)
         setProject({ ...project })
       } catch (err) {
-        //TODO: alert to error
-        alert('Cannot rename literal')
+        showSimpleError(
+          'Cannot delete literal',
+          'An error occurred while trying to delete the literal.'
+        )
       }
     } else {
-      //TODO: alert to error
-      alert('No tinfo')
+      showSimpleError(
+        'Translation information not found',
+        'No translation information available to perform the deletion operation.'
+      )
     }
 
     props.onClose()
