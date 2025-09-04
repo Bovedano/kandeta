@@ -3,8 +3,12 @@ import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 import { setupIPC } from './setupIPC'
+import { createSplashScreen, closeSplashScreen } from './splashScreen'
 
 function createWindow(): void {
+  // Create splash screen first
+  const splash = createSplashScreen()
+
   // Create the browser window.
   const mainWindow = new BrowserWindow({
     width: 900,
@@ -21,7 +25,11 @@ function createWindow(): void {
   })
 
   mainWindow.on('ready-to-show', () => {
-    mainWindow.show()
+    // Close splash screen and show main window after 3 seconds
+    setTimeout(() => {
+      closeSplashScreen()
+      mainWindow.show()
+    }, 3000)
   })
 
   mainWindow.webContents.setWindowOpenHandler((details) => {

@@ -1,0 +1,188 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Kandeta - Loading</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial,
+          sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        color: white;
+        overflow: hidden;
+      }
+
+      .logo-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        animation: fadeInUp 1s ease-out;
+      }
+
+      .logo {
+        width: 80px;
+        height: 80px;
+        margin-bottom: 20px;
+        border-radius: 16px;
+        animation: pulse 2s infinite;
+      }
+
+      .app-name {
+        font-size: 28px;
+        font-weight: 600;
+        margin-bottom: 8px;
+        text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        letter-spacing: 1px;
+      }
+
+      .app-version {
+        font-size: 16px;
+        font-weight: 300;
+        opacity: 0.9;
+        text-shadow: 0 1px 5px rgba(0, 0, 0, 0.3);
+      }
+
+      .loading-indicator {
+        margin-top: 30px;
+        width: 40px;
+        height: 40px;
+        border: 3px solid rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        border-top-color: white;
+        animation: spin 1s ease-in-out infinite;
+      }
+
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.05);
+        }
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      .particles {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: -1;
+      }
+
+      .particle {
+        position: absolute;
+        width: 4px;
+        height: 4px;
+        background: rgba(255, 255, 255, 0.6);
+        border-radius: 50%;
+        animation: float 6s ease-in-out infinite;
+      }
+
+      .particle:nth-child(1) {
+        left: 10%;
+        animation-delay: 0s;
+      }
+      .particle:nth-child(2) {
+        left: 20%;
+        animation-delay: 1s;
+      }
+      .particle:nth-child(3) {
+        left: 30%;
+        animation-delay: 2s;
+      }
+      .particle:nth-child(4) {
+        left: 40%;
+        animation-delay: 0.5s;
+      }
+      .particle:nth-child(5) {
+        left: 50%;
+        animation-delay: 1.5s;
+      }
+      .particle:nth-child(6) {
+        left: 60%;
+        animation-delay: 3s;
+      }
+      .particle:nth-child(7) {
+        left: 70%;
+        animation-delay: 2.5s;
+      }
+      .particle:nth-child(8) {
+        left: 80%;
+        animation-delay: 4s;
+      }
+      .particle:nth-child(9) {
+        left: 90%;
+        animation-delay: 1.8s;
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(100vh) rotate(0deg);
+          opacity: 0;
+        }
+        10% {
+          opacity: 1;
+        }
+        90% {
+          opacity: 1;
+        }
+        100% {
+          transform: translateY(-10vh) rotate(360deg);
+          opacity: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="particles">
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+    </div>
+
+    <div class="logo-container">
+      <img src="../resources/icon.png" alt="Kandeta Logo" class="logo" />
+      <div class="app-name">Kandeta</div>
+      <div class="app-version">v1.1.3</div>
+      <div class="loading-indicator"></div>
+    </div>
+  </body>
+</html>
