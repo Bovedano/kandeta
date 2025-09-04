@@ -1,0 +1,224 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version_type:
+        description: 'Release type'
+        required: true
+        default: 'patch'
+        type: choice
+        options:
+        - major
+        - minor
+        - patch
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    outputs:
+      new_version: ${{ steps.version.outputs.new_version }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Configure Git
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+
+      - name: Get current version
+        id: current_version
+        run: echo "version=$(node -p "require('./package.json').version")" >> $GITHUB_OUTPUT
+
+      - name: Bump version
+        id: version
+        run: |
+          npm version ${{ github.event.inputs.version_type }} --no-git-tag-version
+          NEW_VERSION=$(node -p "require('./package.json').version")
+          echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
+          echo "New version: $NEW_VERSION"
+
+      - name: Commit version bump
+        run: |
+          git add package.json package-lock.json
+          git commit -m "chore: bump version to v${{ steps.version.outputs.new_version }}"
+          git push
+
+      - name: Create and push tag
+        run: |
+          git tag -a "v${{ steps.version.outputs.new_version }}" -m "Release v${{ steps.version.outputs.new_version }}"
+          git push origin "v${{ steps.version.outputs.new_version }}"
+
+  build:
+    needs: release
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: "v${{ needs.release.outputs.new_version }}"
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build and package for Windows
+        if: matrix.os == 'windows-latest'
+        run: npm run build:win
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and package for macOS
+        if: matrix.os == 'macos-latest'
+        run: npm run build:mac
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and package for Linux
+        if: matrix.os == 'ubuntu-latest'
+        run: npm run build:linux
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload Windows artifacts
+        if: matrix.os == 'windows-latest'
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-build
+          path: |
+            dist/*.exe
+            dist/*.zip
+            dist/latest.yml
+          retention-days: 5
+
+      - name: Upload macOS artifacts
+        if: matrix.os == 'macos-latest'
+        uses: actions/upload-artifact@v4
+        with:
+          name: macos-build
+          path: |
+            dist/*.dmg
+            dist/*.zip
+            dist/latest-mac.yml
+          retention-days: 5
+
+      - name: Upload Linux artifacts
+        if: matrix.os == 'ubuntu-latest'
+        uses: actions/upload-artifact@v4
+        with:
+          name: linux-build
+          path: |
+            dist/*.AppImage
+            dist/*.deb
+            dist/*.snap
+            dist/latest-linux.yml
+          retention-days: 5
+
+  create_release:
+    needs: [release, build]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: "v${{ needs.release.outputs.new_version }}"
+
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: ./artifacts
+
+      - name: Display downloaded files
+        run: find ./artifacts -type f -name "*"
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: "v${{ needs.release.outputs.new_version }}"
+          release_name: "Release v${{ needs.release.outputs.new_version }}"
+          body: |
+            ## Release v${{ needs.release.outputs.new_version }}
+            
+            This release was automatically generated.
+            
+            ### Downloads
+            
+            #### Windows
+            - Setup executable for Windows 10/11
+            
+            #### macOS
+            - DMG installer for macOS
+            
+            #### Linux  
+            - AppImage (universal Linux binary)
+            - DEB package (Debian/Ubuntu)
+            - Snap package
+            
+            ### Changes
+            - Version bump to v${{ needs.release.outputs.new_version }}
+          draft: false
+          prerelease: false
+
+      - name: Upload Windows Setup
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./artifacts/windows-build/kendeta-${{ needs.release.outputs.new_version }}-setup.exe
+          asset_name: kendeta-${{ needs.release.outputs.new_version }}-setup.exe
+          asset_content_type: application/octet-stream
+
+      - name: Upload macOS DMG
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./artifacts/macos-build/kendeta-${{ needs.release.outputs.new_version }}.dmg
+          asset_name: kendeta-${{ needs.release.outputs.new_version }}.dmg
+          asset_content_type: application/octet-stream
+
+      - name: Upload Linux AppImage
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./artifacts/linux-build/kendeta-${{ needs.release.outputs.new_version }}.AppImage
+          asset_name: kendeta-${{ needs.release.outputs.new_version }}.AppImage
+          asset_content_type: application/octet-stream
+
+      - name: Upload Linux DEB
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./artifacts/linux-build/kendeta_${{ needs.release.outputs.new_version }}_amd64.deb
+          asset_name: kendeta_${{ needs.release.outputs.new_version }}_amd64.deb
+          asset_content_type: application/octet-stream
