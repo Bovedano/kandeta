@@ -22,7 +22,7 @@ downloads/
 
 ### Windows
 - **File**: `kendeta-1.1.0-setup.exe`
-- **Size**: ~94 MB
+- **Size**: ~188 MB
 - **Format**: NSIS installer with auto-updater
 - **Requirements**: Windows 10 or later
 - **Installation**: Double-click to run installer
