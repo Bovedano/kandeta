@@ -6,7 +6,9 @@
       "Bash(npm run dev:*)",
       "Bash(timeout:*)",
       "WebSearch",
-      "Bash(npm run lint)"
+      "Bash(npm run lint)",
+      "Bash(npm run build:*)",
+      "Bash(tree:*)"
     ],
     "deny": [],
     "ask": []
