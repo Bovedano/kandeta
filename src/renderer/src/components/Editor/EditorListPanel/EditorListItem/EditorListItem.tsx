@@ -145,7 +145,9 @@ export const EditorListItem = forwardRef<HTMLDivElement, EditorListItemProps>(
             paddingLeft="15px"
             onAuxClick={onClickHandler}
           >
-            <Icon icon={FaCheck} fontSize={'small'} />
+            <Pane flexShrink={0}>
+              <Icon icon={FaCheck} fontSize={'small'} />
+            </Pane>
             <CText
               b_selected={props.isSelected}
               fontWeight={props.isSelected ? 'bold' : 'normal'}
