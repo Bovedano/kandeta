@@ -21,6 +21,13 @@ export const TextInputDialog = (props: TextInputDialogProps): JSX.Element => {
     }
   }, [props.isOpen])
 
+  const handleKeyDown = (ev: React.KeyboardEvent): void => {
+    if (ev.key === 'Enter') {
+      ev.preventDefault()
+      props.onConfirm(value)
+    }
+  }
+
   return (
     <Dialog
       header={props.title}
@@ -37,6 +44,7 @@ export const TextInputDialog = (props: TextInputDialogProps): JSX.Element => {
         placeholder={props.placeholder ? props.placeholder : ''}
         value={value}
         onChange={(ev) => setValue(ev.target.value)}
+        onKeyDown={handleKeyDown}
       />
     </Dialog>
   )

@@ -3,6 +3,7 @@ import { useSelectedLiteralContext } from '@renderer/context/useSelectedLiteralC
 import { useProjectContext } from '@renderer/context/useVInspectorSelectionContext'
 import { renameLiteral } from '@renderer/core/literals/literals'
 import { useError } from '@renderer/core/context/ErrorContext'
+import { useFilterContext } from '@renderer/context/useFilterContext'
 
 interface RenameTranslationInputProps {
   isOpen: boolean
@@ -14,13 +15,26 @@ export const RenameTranslationInput = (props: RenameTranslationInputProps): JSX.
   const { setLiteral_id } = useSelectedLiteralContext()
   const { project, setProject } = useProjectContext()
   const { showSimpleError } = useError()
+  const { clearFilter } = useFilterContext()
 
   const onAddTranslationHandler = (value: string): void => {
-    console.log(value)
     if (props.idLiteralToRename) {
       try {
+        // Check if the new ID already exists (and it's not the same as current)
+        if (value !== props.idLiteralToRename) {
+          const existingLiteral = project.translation_info.literals.find(lit => lit.id === value)
+          if (existingLiteral) {
+            showSimpleError(
+              'Literal ID already exists',
+              'A literal with this ID already exists. Please choose a different ID.'
+            )
+            return
+          }
+        }
+
         renameLiteral(props.idLiteralToRename, value, project.translation_info)
         setProject({ ...project })
+        clearFilter()
         setLiteral_id(value)
       } catch (err) {
         showSimpleError(
