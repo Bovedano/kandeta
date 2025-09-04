@@ -4,7 +4,9 @@
 
 # Kandeta
 
-A powerful desktop translation management application built with Electron, React, and TypeScript. Kandeta streamlines the localization workflow for developers and translators by providing an intuitive interface for managing translation files, automated translation services, and real-time collaboration features.
+**Transform your app localization workflow from chaos to clarity.**
+
+Kandeta is the translation management tool that finally makes sense. Whether you're a solo developer juggling multiple languages or part of a team coordinating global releases, Kandeta brings order to your translation process.
 
 ## 📸 Preview
 
@@ -39,6 +41,7 @@ _Kandeta's intuitive interface showing the translation list on the left and the 
 [![Download for Linux](https://img.shields.io/badge/Download-Linux-orange?style=for-the-badge&logo=linux)](https://github.com/Bovedano/kandeta/releases/latest)
 
 **Available formats:**
+
 - **AppImage** (Universal) - Just download and run
 - **DEB** (Debian/Ubuntu) - `sudo dpkg -i kandeta_*.deb`
 - **Snap** - Available through snap store
@@ -49,15 +52,25 @@ Browse all available versions and platforms: **[Downloads](downloads/)**
 
 ---
 
-## ✨ Features
+## ✨ What Makes Kandeta Special
 
-- **Multi-format Support**: Work with JSON separated files and other translation formats
-- **Smart Translation Management**: Create, edit, rename, and duplicate translations with ease
-- **Automated Translation**: Integrate with Claude AI and Google Translate for automated translations
-- **Advanced Filtering**: Search and filter translations by ID, text content, or custom tags
-- **Real-time Updates**: Auto-scroll to newly created translations with instant feedback
-- **Project Management**: Organize translations by projects with import/export functionality
-- **Developer-Friendly**: Built with modern web technologies and extensible architecture
+🎯 **Finally, Translations That Make Sense**  
+Organize your app's text in a clean, searchable interface. Find that specific button label or error message in seconds, not minutes.
+
+⚡ **AI-Powered Speed**  
+Connect with your favorite translation services and let AI handle the heavy lifting. Get quality translations in multiple languages while you focus on building great features.
+
+🔍 **Never Lose Track Again**  
+Smart filtering and search means you can instantly find any text, whether you remember the ID, the content, or just a few keywords.
+
+🚀 **Works With Your Workflow**  
+Import your existing JSON files, make your changes, and export them back. No complex migrations, no vendor lock-in.
+
+📁 **Project-Based Organization**  
+Keep different apps separate, manage versions, and collaborate with your team without stepping on each other's toes.
+
+✨ **Beautifully Simple**  
+No learning curve, no overwhelming menus. Just open your files, make your changes, and get back to what matters. Translation management shouldn't require a manual.
 
 ## 🚀 Quick Start
 
@@ -84,12 +97,10 @@ npm run dev
 
 ### 📱 Usage
 
-1. **Create a New Project**: Start by creating or opening a translation project
-2. **Import Translation Files**: Load your existing JSON translation files
-3. **Manage Translations**: Use the intuitive interface to create, edit, and organize translations
-4. **Filter & Search**: Quickly find specific translations using the built-in search and filter system
-5. **Auto-Translate**: Leverage AI-powered translation services for faster workflow
-6. **Export Results**: Save your translations back to your preferred file format
+1. **Create or Load Your Translation Files**: Start with your existing JSON files or create new ones from scratch
+2. **Use the Intuitive Interface**: Create, edit, and organize translations with our clean, simple interface
+3. **Save Your Project**: Keep your project and all translation file changes safely stored
+4. **Edit Anytime**: Return to your project whenever you need to make updates or add new languages
 
 ### 🏗️ Building for Production
 
