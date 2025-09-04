@@ -22,20 +22,20 @@ export const EditorListPanel = (): JSX.Element => {
   const scrollToLiteral = (literalId: string): void => {
     const element = itemRefs.current[literalId]
     const container = scrollContainerRef.current
-    
+
     if (element && container) {
       // Obtener la posición del elemento relativa al contenedor
       const containerRect = container.getBoundingClientRect()
       const elementRect = element.getBoundingClientRect()
-      
+
       // Calcular la posición de scroll necesaria
       const elementTop = elementRect.top - containerRect.top + container.scrollTop
       const containerHeight = container.clientHeight
       const elementHeight = elementRect.height
-      
+
       // Centrar el elemento en el contenedor
-      const targetScrollTop = elementTop - (containerHeight / 2) + (elementHeight / 2)
-      
+      const targetScrollTop = elementTop - containerHeight / 2 + elementHeight / 2
+
       // Hacer scroll suave
       container.scrollTo({
         top: Math.max(0, targetScrollTop),
@@ -55,6 +55,7 @@ export const EditorListPanel = (): JSX.Element => {
 
       return (): void => clearTimeout(timeoutId)
     }
+    return undefined
   }, [literal_id, filteredLiterals])
 
   return (
