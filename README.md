@@ -18,11 +18,11 @@ _Kandeta's intuitive interface showing the translation list on the left and the 
 
 #### Windows
 
-[![Download for Windows](https://img.shields.io/badge/Download-Windows-blue?style=for-the-badge&logo=windows)](downloads/v1.1.1/win/kendeta-1.1.1-setup.exe)
+[![Download for Windows](https://img.shields.io/badge/Download-Windows-blue?style=for-the-badge&logo=windows)](https://github.com/Bovedano/kandeta/releases/latest)
 
 **Size: ~188 MB** | **Requirements: Windows 10 or later**
 
-> 💡 **Easy Installation**: Just download and run the setup file. The installer will guide you through the process.
+> 💡 **Easy Installation**: Download the latest release from GitHub Releases. Just run the setup file and the installer will guide you through the process.
 
 #### macOS
 
