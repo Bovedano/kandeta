@@ -14,27 +14,34 @@ _Kandeta's intuitive interface showing the translation list on the left and the 
 
 ## 📥 Download
 
-### Latest Release - v1.1.1
+### Latest Release
+
+[![Latest Release](https://img.shields.io/github/v/release/Bovedano/kandeta?style=for-the-badge&logo=github)](https://github.com/Bovedano/kandeta/releases/latest)
 
 #### Windows
 
 [![Download for Windows](https://img.shields.io/badge/Download-Windows-blue?style=for-the-badge&logo=windows)](https://github.com/Bovedano/kandeta/releases/latest)
 
-**Size: ~188 MB** | **Requirements: Windows 10 or later**
+**Requirements: Windows 10 or later**
 
-> 💡 **Easy Installation**: Download the latest release from GitHub Releases. Just run the setup file and the installer will guide you through the process.
+> 💡 **Easy Installation**: Download the latest release from GitHub Releases. Look for the `.exe` setup file and run it to install.
 
 #### macOS
 
-[![macOS - Build Required](https://img.shields.io/badge/macOS-Build_Required-orange?style=for-the-badge&logo=apple)](downloads/v1.1.1/mac/)
+[![Download for macOS](https://img.shields.io/badge/Download-macOS-black?style=for-the-badge&logo=apple)](https://github.com/Bovedano/kandeta/releases/latest)
 
-Run `npm run build:mac` to build for macOS
+**Requirements: macOS 10.15 or later**
+
+> 💡 **Installation**: Download the `.dmg` file from the latest release and follow the standard macOS installation process.
 
 #### Linux
 
-[![Linux - Build Required](https://img.shields.io/badge/Linux-Build_Required-yellow?style=for-the-badge&logo=linux)](downloads/v1.1.1/linux/)
+[![Download for Linux](https://img.shields.io/badge/Download-Linux-orange?style=for-the-badge&logo=linux)](https://github.com/Bovedano/kandeta/releases/latest)
 
-Run `npm run build:linux` to build for Linux
+**Available formats:**
+- **AppImage** (Universal) - Just download and run
+- **DEB** (Debian/Ubuntu) - `sudo dpkg -i kandeta_*.deb`
+- **Snap** - Available through snap store
 
 ### 📁 All Releases
 
