@@ -7,7 +7,7 @@ import { useDuplicateTranslationInput } from '@renderer/Tools/hooks/useDuplicate
 import { useNewTranslationInput } from '@renderer/Tools/hooks/useNewTranslationInput'
 import { useRenameTranslationInput } from '@renderer/Tools/hooks/useRenameTranslationInput'
 import { Pane, Popover, Position } from 'evergreen-ui'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, forwardRef } from 'react'
 import { FaCheck } from 'react-icons/fa6'
 
 interface EditorListItemProps {
@@ -18,7 +18,7 @@ interface EditorListItemProps {
 
 const HEVENT = 'list_item_hovered_custom_event'
 
-export const EditorListItem = (props: EditorListItemProps): JSX.Element => {
+export const EditorListItem = forwardRef<HTMLDivElement, EditorListItemProps>((props, ref): JSX.Element => {
   const menu_id = 'custom_menu_id_' + props.literal.id
   const [isOpen, setIsOpen] = useState<boolean>(false)
 
@@ -71,8 +71,9 @@ export const EditorListItem = (props: EditorListItemProps): JSX.Element => {
   }
 
   return (
-    <Popover
-      content={
+    <div ref={ref}>
+      <Popover
+        content={
         <EvergreenCustomizerMenus>
           <Pane
             className={menu_id}
@@ -154,6 +155,9 @@ export const EditorListItem = (props: EditorListItemProps): JSX.Element => {
           {props.literal.id}
         </CText>
       </Pane>
-    </Popover>
+      </Popover>
+    </div>
   )
-}
+})
+
+EditorListItem.displayName = 'EditorListItem'

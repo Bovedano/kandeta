@@ -2,6 +2,10 @@ import { ToolsContextType, useToolsContext } from '@renderer/context/useToolsCon
 
 const alias = 'newTranslationInput'
 
-export const useNewTranslationInput = (): ToolsContextType<void> => {
-  return useToolsContext<void>(alias)
+interface NewTranslationData {
+  initialValue?: string
+}
+
+export const useNewTranslationInput = (): ToolsContextType<NewTranslationData> => {
+  return useToolsContext<NewTranslationData>(alias)
 }

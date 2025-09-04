@@ -29,6 +29,7 @@ export const GlobalToolsRegister = (): JSX.Element => {
       <NewTranslationInput
         isOpen={newTranslationInputController.isOpen}
         onClose={newTranslationInputController.close}
+        initialValue={newTranslationInputController.data?.initialValue}
       />
       <RenameTranslationInput
         isOpen={renameTranslationInputController.isOpen}
