@@ -7,7 +7,7 @@ import { createSplashScreen, closeSplashScreen } from './splashScreen'
 
 function createWindow(): void {
   // Create splash screen first
-  const splash = createSplashScreen()
+  createSplashScreen()
 
   // Create the browser window.
   const mainWindow = new BrowserWindow({
