@@ -66,9 +66,9 @@ If you prefer to build from source or need a different platform:
 ## Support
 
 If you encounter issues with any download:
-- Check [Issues](../../../issues)
+- Check [Issues](https://github.com/Bovedano/kandeta/issues)
 - Review [Developer Documentation](../DEVELOPER.md)
-- Create a [New Issue](../../../issues/new)
+- Create a [New Issue](https://github.com/Bovedano/kandeta/issues/new)
 
 ---
 

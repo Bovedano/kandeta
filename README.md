@@ -136,8 +136,8 @@ We welcome contributions! Please see our [Developer Documentation](DEVELOPER.md)
 ## 🐛 Issues & Support
 
 If you encounter any issues or have questions:
-- Check the [existing issues](../../issues)
-- Create a [new issue](../../issues/new) with detailed information
+- Check the [existing issues](https://github.com/Bovedano/kandeta/issues)
+- Create a [new issue](https://github.com/Bovedano/kandeta/issues/new) with detailed information
 - Refer to the [Developer Documentation](DEVELOPER.md) for technical details
 
 ---
