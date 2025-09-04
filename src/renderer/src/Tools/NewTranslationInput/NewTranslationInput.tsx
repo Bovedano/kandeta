@@ -1,16 +1,19 @@
 import { TextInputDialog } from '@renderer/components/Commons/Dialogs/TextInputDialog/TextInputDialog'
 import { useSelectedLiteralContext } from '@renderer/context/useSelectedLiteralContext'
 import { useProjectContext } from '@renderer/context/useVInspectorSelectionContext'
+import { useFilterContext } from '@renderer/context/useFilterContext'
 import { addLiteralToTranslationInfo } from '@renderer/core/literals/literals'
 
 interface NewTranslationInputProps {
   isOpen: boolean
   onClose: () => void
+  initialValue?: string
 }
 
 export const NewTranslationInput = (props: NewTranslationInputProps): JSX.Element => {
   const { setLiteral_id } = useSelectedLiteralContext()
   const { project, setProject } = useProjectContext()
+  const { clearFilter } = useFilterContext()
 
   const onAddTranslationHandler = (value: string): void => {
     addLiteralToTranslationInfo(
@@ -23,6 +26,10 @@ export const NewTranslationInput = (props: NewTranslationInputProps): JSX.Elemen
     setProject({ ...project })
     setLiteral_id(value)
 
+    if (clearFilter) {
+      clearFilter()
+    }
+
     props.onClose()
   }
 
@@ -33,6 +40,7 @@ export const NewTranslationInput = (props: NewTranslationInputProps): JSX.Elemen
       onCancell={props.onClose}
       title="New Translation"
       label="Translation Id"
+      initValue={props.initialValue}
     />
   )
 }

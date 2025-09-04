@@ -53,7 +53,7 @@ export const EditorListFilter = (props: EditorListFilterProps): JSX.Element => {
           b_hover
           cursor="pointer"
           size={30}
-          onClick={() => newTranslationInputController.open()}
+          onClick={() => newTranslationInputController.open({ initialValue: props.filter })}
         />
       </Pane>
     </Pane>
