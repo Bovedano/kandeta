@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="resources/icon.png" alt="Kandeta Logo" width="256" >
+</p>
+
 # Kandeta
 
 A powerful desktop translation management application built with Electron, React, and TypeScript. Kandeta streamlines the localization workflow for developers and translators by providing an intuitive interface for managing translation files, automated translation services, and real-time collaboration features.
@@ -6,29 +10,29 @@ A powerful desktop translation management application built with Electron, React
 
 ![Kandeta Screenshot](resources/screenshot.png)
 
-*Kandeta's intuitive interface showing the translation list on the left and the editing panel on the right, with real-time search and filtering capabilities.*
+_Kandeta's intuitive interface showing the translation list on the left and the editing panel on the right, with real-time search and filtering capabilities._
 
 ## 📥 Download
 
-### Latest Release - v1.1.0
+### Latest Release - v1.1.1
 
 #### Windows
 
-[![Download for Windows](https://img.shields.io/badge/Download-Windows-blue?style=for-the-badge&logo=windows)](downloads/v1.1.0/win/kendeta-1.1.0-setup.exe)
+[![Download for Windows](https://img.shields.io/badge/Download-Windows-blue?style=for-the-badge&logo=windows)](https://github.com/Bovedano/kandeta/releases/latest)
 
-**Size: ~94 MB** | **Requirements: Windows 10 or later**
+**Size: ~188 MB** | **Requirements: Windows 10 or later**
 
-> 💡 **Easy Installation**: Just download and run the setup file. The installer will guide you through the process.
+> 💡 **Easy Installation**: Download the latest release from GitHub Releases. Just run the setup file and the installer will guide you through the process.
 
 #### macOS
 
-[![macOS - Build Required](https://img.shields.io/badge/macOS-Build_Required-orange?style=for-the-badge&logo=apple)](downloads/v1.1.0/mac/)
+[![macOS - Build Required](https://img.shields.io/badge/macOS-Build_Required-orange?style=for-the-badge&logo=apple)](downloads/v1.1.1/mac/)
 
 Run `npm run build:mac` to build for macOS
 
 #### Linux
 
-[![Linux - Build Required](https://img.shields.io/badge/Linux-Build_Required-yellow?style=for-the-badge&logo=linux)](downloads/v1.1.0/linux/)
+[![Linux - Build Required](https://img.shields.io/badge/Linux-Build_Required-yellow?style=for-the-badge&logo=linux)](downloads/v1.1.1/linux/)
 
 Run `npm run build:linux` to build for Linux
 
@@ -119,6 +123,7 @@ Interested in contributing or extending Kandeta? Check out our comprehensive dev
 **📖 [Developer Documentation](DEVELOPER.md)**
 
 The developer guide includes:
+
 - Detailed project architecture
 - Component structure and patterns
 - How to add new features and translation services
@@ -136,6 +141,7 @@ We welcome contributions! Please see our [Developer Documentation](DEVELOPER.md)
 ## 🐛 Issues & Support
 
 If you encounter any issues or have questions:
+
 - Check the [existing issues](https://github.com/Bovedano/kandeta/issues)
 - Create a [new issue](https://github.com/Bovedano/kandeta/issues/new) with detailed information
 - Refer to the [Developer Documentation](DEVELOPER.md) for technical details
