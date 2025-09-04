@@ -1,4 +1,4 @@
-import { dialog } from 'electron'
+import { dialog, app } from 'electron'
 import { readFileSync, writeFileSync } from 'fs'
 
 export const selectFile = async (): Promise<string> => {
@@ -38,5 +38,5 @@ export const writeFile = async (_event, path: string, content: string): Promise<
 }
 
 export const getAppDir = async (): Promise<string> => {
-  return process.resourcesPath
+  return app.getPath('userData')
 }
