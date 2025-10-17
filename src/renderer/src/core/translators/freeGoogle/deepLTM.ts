@@ -1,5 +1,6 @@
 import { request } from '@renderer/controllers/nativeController'
 import { TMConfiguration, TranslationModule } from '@renderer/core/domain'
+import { getRequiredConfigValue } from '@renderer/core/project/configurations'
 
 interface ServiceResponse {
   translations: Array<{
@@ -22,13 +23,11 @@ export const deepLTM: TranslationModule = {
     id_language_target: string,
     text
   ) => {
-    console.log('config', configuration)
-    const apiKeyC = configuration.find((c) => c.module_id === 'deepl' && c.id === 'apiKey')
-    console.log('apiKeyC', apiKeyC)
-
-    if (!apiKeyC || !apiKeyC.value) {
-      throw new Error('It is necessary to configure the api key to use DeepL')
-    }
+    const apiKey = getRequiredConfigValue(
+      configuration,
+      'apiKey',
+      'It is necessary to configure the api key to use DeepL'
+    )
 
     const lt = id_language_target.split('-')[0]
 
@@ -39,14 +38,14 @@ export const deepLTM: TranslationModule = {
     const url = 'https://api-free.deepl.com/v2/translate'
 
     const config = {
-      method: 'post', // método (POST, GET, etc.)
-      url: url, // URL de destino
+      method: 'post',
+      url: url,
       data: {
-        text: [text], // DeepL permite enviar múltiples textos en un array
-        target_lang: lt.toUpperCase() // Idioma de salida (ej. "ES")
+        text: [text],
+        target_lang: lt.toUpperCase()
       },
       headers: {
-        Authorization: `DeepL-Auth-Key ${apiKeyC.value}`,
+        Authorization: `DeepL-Auth-Key ${apiKey}`,
         'Content-Type': 'application/json'
       }
     }

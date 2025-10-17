@@ -1,5 +1,6 @@
 import { request } from '@renderer/controllers/nativeController'
 import { TMConfiguration, TranslationModule } from '@renderer/core/domain'
+import { getRequiredConfigValue, getConfigValue } from '@renderer/core/project/configurations'
 
 interface GeminiContent {
   parts: Array<{
@@ -43,15 +44,12 @@ export const geminiAPI: TranslationModule = {
     id_language_target: string,
     text: string
   ) => {
-    const apiKeyConfig = configuration.find((c) => c.module_id === 'gemini' && c.id === 'apiKey')
-    const modelConfig = configuration.find((c) => c.module_id === 'gemini' && c.id === 'model')
-
-    if (!apiKeyConfig || !apiKeyConfig.value) {
-      throw new Error('It is necessary to configure the API key to use Gemini')
-    }
-
-    // Default model if not specified
-    const model = modelConfig?.value || 'gemini-1.5-flash'
+    const apiKey = getRequiredConfigValue(
+      configuration,
+      'apiKey',
+      'It is necessary to configure the API key to use Gemini'
+    )
+    const model = getConfigValue(configuration, 'model', 'gemini-1.5-flash')
 
     // Extract language codes (e.g., 'en-US' -> 'English', 'es-ES' -> 'Spanish')
     const getLanguageName = (langId: string): string => {
@@ -105,7 +103,7 @@ export const geminiAPI: TranslationModule = {
 
     const config = {
       method: 'post',
-      url: `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKeyConfig.value}`,
+      url: `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`,
       data: requestData,
       headers: {
         'Content-Type': 'application/json'

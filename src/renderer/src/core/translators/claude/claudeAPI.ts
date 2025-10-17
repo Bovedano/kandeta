@@ -1,5 +1,6 @@
 import { request } from '@renderer/controllers/nativeController'
 import { TMConfiguration, TranslationModule } from '@renderer/core/domain'
+import { getRequiredConfigValue, getConfigValue } from '@renderer/core/project/configurations'
 
 interface ClaudeMessage {
   role: 'user' | 'assistant'
@@ -38,15 +39,12 @@ export const claudeAPI: TranslationModule = {
     id_language_target: string,
     text: string
   ) => {
-    const apiKeyConfig = configuration.find((c) => c.module_id === 'claude' && c.id === 'apiKey')
-    const modelConfig = configuration.find((c) => c.module_id === 'claude' && c.id === 'model')
-
-    if (!apiKeyConfig || !apiKeyConfig.value) {
-      throw new Error('It is necessary to configure the API key to use Claude')
-    }
-
-    // Default model if not specified
-    const model = modelConfig?.value || 'claude-3-haiku-20240307'
+    const apiKey = getRequiredConfigValue(
+      configuration,
+      'apiKey',
+      'It is necessary to configure the API key to use Claude'
+    )
+    const model = getConfigValue(configuration, 'model', 'claude-3-haiku-20240307')
 
     // Extract language codes (e.g., 'en-US' -> 'English', 'es-ES' -> 'Spanish')
     const getLanguageName = (langId: string): string => {
@@ -87,7 +85,7 @@ export const claudeAPI: TranslationModule = {
       url: 'https://api.anthropic.com/v1/messages',
       data: requestData,
       headers: {
-        'x-api-key': apiKeyConfig.value,
+        'x-api-key': apiKey,
         'anthropic-version': '2023-06-01',
         'Content-Type': 'application/json'
       }

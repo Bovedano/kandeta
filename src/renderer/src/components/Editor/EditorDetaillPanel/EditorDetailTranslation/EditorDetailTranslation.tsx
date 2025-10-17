@@ -23,7 +23,6 @@ interface EditorDetailTranslationProps {
 
 export const EditorDetailTranslation = (props: EditorDetailTranslationProps): JSX.Element => {
   const [value, setValue] = useState<string | undefined>()
-  const [error, setError] = useState<string | undefined>('')
   const { showSimpleError } = useError()
   const [suggestion, setSuggestion] = useState<string | undefined>()
   const timeoutRef = useRef<NodeJS.Timeout | null>(null)
@@ -33,7 +32,6 @@ export const EditorDetailTranslation = (props: EditorDetailTranslationProps): JS
   useEffect(() => {
     setValue(getLiteralTranslationValue(props.literal, props.language_id, ''))
     setSuggestion('')
-    setError('')
   }, [props.literal.id])
 
   useEffect(() => {
@@ -50,14 +48,17 @@ export const EditorDetailTranslation = (props: EditorDetailTranslationProps): JS
   }, [value])
 
   const onTranslateHandler = (): void => {
-    setError('')
     const tm = getTranslationModule(config.tm_configuration.selected_tm)
     if (tm) {
       const defaultLiteral = getDefaultTranslationFromLiteral(props.literal, props.default_language)
       if (defaultLiteral && defaultLiteral.text) {
         setInProcess('Translating...')
+        // Filter configurations for the selected translation module
+        const filteredConfig = config.tm_configuration.tm_configurations.filter(
+          (c) => c.module_id === tm.id
+        )
         tm.translate(
-          config.tm_configuration.tm_configurations,
+          filteredConfig,
           props.default_language,
           props.language_id,
           defaultLiteral.text
@@ -67,10 +68,11 @@ export const EditorDetailTranslation = (props: EditorDetailTranslationProps): JS
             setInProcess('')
           })
           .catch((err) => {
-            //TODO alert
-            console.log(err)
             setInProcess('')
-            setError('It has not been possible to translate')
+            showSimpleError(
+              'Translation failed',
+              err instanceof Error ? err.message : 'An unknown error occurred during translation'
+            )
           })
       } else {
         showSimpleError(
@@ -131,14 +133,6 @@ export const EditorDetailTranslation = (props: EditorDetailTranslationProps): JS
           />
           <Icon icon={MdClose} b_hover cursor="pointer" onClick={() => setSuggestion('')} />
           <Icon icon={FaCheck} b_hover cursor="pointer" onClick={onAcceptSuggestion} />
-        </Pane>
-      )}
-      {!inProcess && !suggestion && error && (
-        <Pane display="flex" alignItems="center" columnGap="10px">
-          <CText color="red">{error}</CText>
-          <Pane display="flex" alignItems="center" marginTop="3px">
-            <Icon icon={MdClose} b_hover cursor="pointer" onClick={() => setError('')} />
-          </Pane>
         </Pane>
       )}
     </Pane>
