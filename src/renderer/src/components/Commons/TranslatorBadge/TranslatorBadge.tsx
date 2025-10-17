@@ -5,12 +5,21 @@ interface TranslatorBadgeProps {
   color: string
   size?: number
   onClick?: () => void
+  showBorder?: boolean
 }
 
 export const TranslatorBadge = (props: TranslatorBadgeProps): JSX.Element => {
   const size = props.size || 32
   const fontSize = Math.floor(size * 0.375) // 37.5% del tamaño
   const borderRadius = Math.floor(size * 0.1875) // 18.75% del tamaño
+  const showBorder = props.showBorder !== false // Por defecto true
+
+  const handleClick = props.onClick
+    ? (e: React.MouseEvent): void => {
+        e.stopPropagation()
+        props.onClick!()
+      }
+    : undefined
 
   return (
     <Pane
@@ -21,11 +30,11 @@ export const TranslatorBadge = (props: TranslatorBadgeProps): JSX.Element => {
       height={size}
       borderRadius={borderRadius}
       backgroundColor={props.color}
-      boxShadow="0 0 0 1px white"
+      boxShadow={showBorder ? '0 0 0 1px white' : 'none'}
       flexShrink={0}
       userSelect="none"
-      cursor={props.onClick ? 'pointer' : 'default'}
-      onClick={props.onClick}
+      cursor="pointer"
+      onClick={handleClick}
     >
       <Text color="white" fontSize={fontSize} fontWeight={600} userSelect="none">
         {props.initials}
