@@ -49,7 +49,7 @@ export const geminiAPI: TranslationModule = {
       'apiKey',
       'It is necessary to configure the API key to use Gemini'
     )
-    const model = getConfigValue(configuration, 'model', 'gemini-1.5-flash')
+    const model = getConfigValue(configuration, 'model', 'gemini-2.0-flash')
 
     // Extract language codes (e.g., 'en-US' -> 'English', 'es-ES' -> 'Spanish')
     const getLanguageName = (langId: string): string => {
@@ -103,10 +103,11 @@ export const geminiAPI: TranslationModule = {
 
     const config = {
       method: 'post',
-      url: `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`,
+      url: `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`,
       data: requestData,
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'x-goog-api-key': apiKey
       }
     }
 
