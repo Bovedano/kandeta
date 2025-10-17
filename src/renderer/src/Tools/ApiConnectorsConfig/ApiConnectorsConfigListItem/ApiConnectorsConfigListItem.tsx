@@ -2,6 +2,7 @@ import { CRadio } from '@renderer/components/Commons/CComponents/CRadio/CRadio'
 import { CText } from '@renderer/components/Commons/CComponents/CText/CText'
 import { Icon } from '@renderer/components/Commons/Icon/Icon'
 import { Separator } from '@renderer/components/Commons/Separator/Separator'
+import { TranslatorBadge } from '@renderer/components/Commons/TranslatorBadge/TranslatorBadge'
 import { TMConfiguration, TranslationModule, TranslationModuleConfig } from '@renderer/core/domain'
 import { getConfiguration } from '@renderer/core/project/configurations'
 import { Pane, TextInput } from 'evergreen-ui'
@@ -33,6 +34,7 @@ export const ApiConnectorsConfigListItem = (
         <Pane display="flex" alignItems="center" width="100%" columnGap="10px">
           <CRadio checked={props.isSelected} onChange={props.onSelect} />
           <CText width="100%">{props.module.name}</CText>
+          <TranslatorBadge initials={props.module.initials} color={props.module.color} size={16} />
         </Pane>
         <Separator horizontal />
         <Pane display="flex" flexDirection="column" paddingTop="10px" width="100%">
@@ -52,6 +54,7 @@ export const ApiConnectorsConfigListItem = (
       <Pane display="flex" alignItems="center" width="100%" columnGap="10px">
         <CRadio checked={props.isSelected} onChange={props.onSelect} />
         <CText width="100%">{props.module.name}</CText>
+        <TranslatorBadge initials={props.module.initials} color={props.module.color} size={24} />
       </Pane>
       <Separator horizontal />
       <Pane display="flex" flexDirection="column" paddingTop="10px" width="100%" rowGap="12px">

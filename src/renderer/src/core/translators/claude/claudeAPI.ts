@@ -23,6 +23,8 @@ interface ClaudeResponse {
 export const claudeAPI: TranslationModule = {
   id: 'claude',
   name: 'Claude API',
+  initials: 'CL',
+  color: '#CC785C',
   config: [
     {
       id: 'apiKey',

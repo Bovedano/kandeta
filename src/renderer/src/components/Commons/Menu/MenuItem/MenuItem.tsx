@@ -29,7 +29,7 @@ export const MenuItem = (props: MenuItemProps): JSX.Element => {
   }
 
   return (
-    <Pane className="menuItem" display="flex" height="100%" columnGap="2px">
+    <Pane id={props.id} className="menuItem" display="flex" height="100%" columnGap="2px">
       <Pane className="menuItem" display="flex" height="100%" alignItems="center">
         <Icon icon={props.icon} size={35} cursor={'pointer'} onClick={onClickHandler} b_hover />
       </Pane>

@@ -6,6 +6,7 @@ import { MenuItemOpen } from '@renderer/components/Menu/MenuItems/MenuItemOpen'
 import { MenuItemOptions } from '@renderer/components/Menu/MenuItems/MenuItemOptions'
 import { MenuItemSave } from '@renderer/components/Menu/MenuItems/MenuItemSave'
 import { MenuItemTools } from '@renderer/components/Menu/MenuItems/MenuItemTools'
+import { MenuItemTranslator } from '@renderer/components/Menu/MenuItems/MenuItemTranslator'
 import { useThemeContext } from '@renderer/theme/useThemeContext'
 import { Pane } from 'evergreen-ui'
 
@@ -31,6 +32,7 @@ export const Menu = (): JSX.Element => {
         <MenuItemTools />
       </Pane>
       <Pane display="flex" columnGap={menuRowGap + 'px'} height="100%" alignItems="center">
+        <MenuItemTranslator />
         <MenuItemOptions />
         <MenuItemHelp />
       </Pane>

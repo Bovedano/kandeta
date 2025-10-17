@@ -10,6 +10,8 @@ interface ServiceResponse {
 export const freeGoogleTM: TranslationModule = {
   id: 'freegoogle',
   name: 'Free Google',
+  initials: 'FG',
+  color: '#34A853',
   config: [],
   translate: async () =>
     /*

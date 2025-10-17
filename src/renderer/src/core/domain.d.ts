@@ -69,6 +69,8 @@ export interface LanguageLoaded {
 export interface TranslationModule {
   id: string
   name: string
+  initials: string
+  color: string
   config: TranslationModuleConfig[]
   translate: (
     configuration: TMConfiguration[],

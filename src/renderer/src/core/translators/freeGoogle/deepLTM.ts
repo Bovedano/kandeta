@@ -11,6 +11,8 @@ interface ServiceResponse {
 export const deepLTM: TranslationModule = {
   id: 'deepl',
   name: 'Free DeepL',
+  initials: 'DL',
+  color: '#0F2B46',
   config: [
     {
       id: 'apiKey',

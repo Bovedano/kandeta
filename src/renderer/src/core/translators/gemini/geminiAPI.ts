@@ -28,6 +28,8 @@ interface GeminiResponse {
 export const geminiAPI: TranslationModule = {
   id: 'gemini',
   name: 'Google Gemini API',
+  initials: 'GM',
+  color: '#4285F4',
   config: [
     {
       id: 'apiKey',
