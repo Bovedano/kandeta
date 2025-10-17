@@ -43,8 +43,8 @@ export const geminiAPI: TranslationModule = {
     id_language_target: string,
     text: string
   ) => {
-    const apiKeyConfig = configuration.find((c) => c.id === 'apiKey')
-    const modelConfig = configuration.find((c) => c.id === 'model')
+    const apiKeyConfig = configuration.find((c) => c.module_id === 'gemini' && c.id === 'apiKey')
+    const modelConfig = configuration.find((c) => c.module_id === 'gemini' && c.id === 'model')
 
     if (!apiKeyConfig || !apiKeyConfig.value) {
       throw new Error('It is necessary to configure the API key to use Gemini')

@@ -22,7 +22,8 @@ export const deepLTM: TranslationModule = {
     id_language_target: string,
     text
   ) => {
-    const apiKeyC = configuration.find((c) => c.id === 'apiKey') || ''
+    console.log('config', configuration)
+    const apiKeyC = configuration.find((c) => c.module_id === 'deepl' && c.id === 'apiKey')
     console.log('apiKeyC', apiKeyC)
 
     if (!apiKeyC || !apiKeyC.value) {
